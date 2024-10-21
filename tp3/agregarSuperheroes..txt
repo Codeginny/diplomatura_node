@@ -1,0 +1,28 @@
+[
+  {
+    "id": 4,
+    "nombreSuperheroe": "Black Widow",
+    "nombreReal": "Natasha Romanoff",
+    "nombreSociedad": "Vigilante",
+    "edad": 33,
+    "planetaOrigen": "Tierra",
+    "debilidad": "Ninguna conocida",
+    "poder": ["Maestría en combate", "Espionaje"],
+    "habilidadEspecial": "Entrenamiento de élite",
+    "aliado": ["Hawkeye"],
+    "enemigo": ["Taskmaster"]
+  },
+  {
+    "id": 5,
+    "nombreSuperheroe": "Hulk",
+    "nombreReal": "Bruce Banner",
+    "nombreSociedad": "Vigilante",
+    "edad": 40,
+    "planetaOrigen": "Tierra",
+    "debilidad": "Control emocional",
+    "poder": ["Fuerza bruta", "Resistencia"],
+    "habilidadEspecial": "Regeneración rápida",
+    "aliado": ["Ironman"],
+    "enemigo": ["Loki"]
+  }
+]
