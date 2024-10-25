@@ -1,22 +1,27 @@
-import { getSuperheroesFromFile, saveSuperheroesToFile } from '../repositories/superheroesRepository.mjs';
-import { Superhero } from '../models/superheroModel.mjs';
+// services/superheroesService.mjs
 
-// Obtener todos los superhéroes
-export const getAllSuperheroes = async () => {
-  return await getSuperheroesFromFile();
-};
+import SuperheroesRepository from '../repository/superheroesRepository.mjs';
 
-// Crear un nuevo superhéroe
-export const createSuperhero = async (superheroData) => {
-  const superheroes = await getSuperheroesFromFile();
-  const newSuperhero = new Superhero(
-    superheroes.length + 1,
-    superheroData.name,
-    superheroData.alias,
-    superheroData.power,
-    superheroData.universe
+const repository = new SuperheroesRepository();
+
+export function obtenerSuperheroePorId(id) {
+  const superheroes = repository.obtenerTodos();
+  return superheroes.find(hero => hero.id === id);
+}
+
+export function buscarSuperheroesPorAtributo(atributo, valor) {
+  const superheroes = repository.obtenerTodos();
+  return superheroes.filter(hero =>
+    String(hero[atributo]).toLowerCase().includes(valor.toLowerCase())
   );
-  superheroes.push(newSuperhero);
-  await saveSuperheroesToFile(superheroes);
-  return newSuperhero;
-};
+}
+
+export function obtenerSuperheroesMayoresDe30() {
+  const superheroes = repository.obtenerTodos();
+  return superheroes.filter(hero => hero.edad > 30 && hero.planetaOrigen);
+}
+
+export function obtenerSuperheroesMenores18Planeta(planeta) {
+  const superheroes = repository.obtenerTodos();
+  return superheroes.filter(hero => hero.edad < 18 && hero.planetaOrigen == planeta);
+}

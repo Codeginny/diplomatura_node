@@ -1,21 +1,47 @@
-import { getAllSuperheroes, createSuperhero } from '../services/superheroesService.mjs';
+// controllers/superheroesController.mjs
 
-// Obtener todos los superhéroes
-export const getSuperheroes = async (req, res) => {
-  try {
-    const superheroes = await getAllSuperheroes();
-    res.status(200).json(superheroes);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+import {
+  obtenerSuperheroePorId,
+  buscarSuperheroesPorAtributo,
+  obtenerSuperheroesMayoresDe30,
+  obtenerSuperheroesMenores18Planeta
+} from '../services/superheroesService.mjs';
 
-// Crear un nuevo superhéroe
-export const addSuperhero = async (req, res) => {
-  try {
-    const superhero = await createSuperhero(req.body);
-    res.status(201).json(superhero);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+import {
+  renderizarSuperheroe,
+  renderizarListaSuperheroes
+} from '../views/responseView.mjs';
+
+export function obtenerSuperheroePorIdController(req, res) {
+  const { id } = req.params;
+  const superheroe = obtenerSuperheroePorId(parseInt(id));
+
+  if (superheroe) {
+    res.send(renderizarSuperheroe(superheroe));
+  } else {
+    res.status(404).send({ mensaje: "Superhéroe no encontrado" });
   }
-};
+}
+
+export function buscarSuperheroesPorAtributoController(req, res) {
+  const { atributo, valor } = req.params;
+  const superheroes = buscarSuperheroesPorAtributo(atributo, valor);
+
+  if (superheroes.length > 0) {
+    res.send(renderizarListaSuperheroes(superheroes));
+  } else {
+    res.status(404).send({ mensaje: "No se encontraron superhéroes con ese atributo" });
+  }
+}
+export function obtenerSuperheroesMayoresDe30Controller(req, res) {
+  const { planeta } = req.params;
+  const superheroes = obtenerSuperheroesMayoresDe30(planeta);
+  res.send(renderizarListaSuperheroes(superheroes));
+}
+
+
+export function obtenerSuperheroesMenores18PlanetaController(req, res) {
+  const { planeta } = req.params;
+  const superheroes = obtenerSuperheroesMenores18Planeta(planeta);
+  res.send(renderizarListaSuperheroes(superheroes));
+}

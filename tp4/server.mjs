@@ -1,21 +1,16 @@
 import express from 'express';
-import superheroRoutes from './routes/superheroRoutes.mjs';
-import { connectDB } from './config/dbConfig.mjs';
-import { logger } from './utils/logger.mjs';
+import { obtenerSuperheroePorIdController, buscarSuperheroesPorAtributoController, obtenerSuperheroesMayoresDe30Controller ,obtenerSuperheroesMenores18PlanetaController} from './controllers/superheroesController.mjs';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware para parsear JSON
-app.use(express.json());
-
-// Conectar a la base de datos
-connectDB();
+const PORT = 3005;
 
 // Rutas
-app.use('/api/superheroes', superheroRoutes);
+app.get('/superheroes/id/:id', obtenerSuperheroePorIdController);
+app.get('/superheroes/atributo/:atributo/:valor', buscarSuperheroesPorAtributoController);
+app.get('/superheroes/edad/mayorA30', obtenerSuperheroesMayoresDe30Controller);
+app.get('/superheroes/edad/menorA18/:planeta', obtenerSuperheroesMenores18PlanetaController);
 
-// Iniciar servidor
+// Levantar el servidor en el puerto 3005
 app.listen(PORT, () => {
-  logger.info(`Servidor ejecutándose en el puerto ${PORT}`);
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
