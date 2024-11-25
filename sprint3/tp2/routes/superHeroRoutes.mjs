@@ -6,13 +6,13 @@ import {
   actualizarSuperheroeController,
   eliminarSuperheroePorIdController,
   eliminarSuperheroePorNombreController
-} from '../controllers/superheroesController.mjs';  // Asegúrate de que la ruta al controlador sea correcta
+} from '../controllers/superheroesController.mjs';  // Fijarse que la ruta al controlador sea correcta
 
 // Importa las validaciones desde el middleware
 import { 
   crearSuperheroeValidationRules, 
   actualizarSuperheroeValidationRules 
-} from '../middleware/validationRules.mjs';  // Asegúrate de que la ruta sea correcta
+} from '../middleware/validationRules.mjs';  // Fijarse que la ruta sea correcta
 import { validar } from '../middleware/validationRules.mjs'; // Importa el middleware de validación de errores
 
 const router = express.Router();

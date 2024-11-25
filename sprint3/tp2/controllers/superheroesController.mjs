@@ -1,4 +1,4 @@
-import SuperHero from '../models/SuperHero.mjs'; // Asegúrate de que la ruta sea correcta
+import SuperHero from '../models/SuperHero.mjs'; // Fijarse que la ruta sea correcta
 
 // Obtener todos los superhéroes
 export const obtenerTodosLosSuperheroesController = async (req, res) => {
