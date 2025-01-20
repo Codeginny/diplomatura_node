@@ -1,0 +1,72 @@
+<main>
+    <h1>A tener en cuenta</h1>
+    
+    <div class="content">
+        <div class="section">
+
+            <h3>1. Nombre del País</h3>
+            <p><strong>Descripción:</strong> El nombre oficial del país debe ser escrito en español.</p>
+            <p><strong>Formato:</strong> Texto (entre 3 y 90 caracteres).</p>
+            <p><strong>Ejemplo:</strong> "República Argentina".</p>
+            <p><strong>Consideraciones:</strong> Asegúrate de escribir el nombre en su forma oficial y correcta.</p>
+
+            <h3>2. Capital</h3>
+            <p><strong>Descripción:</strong> Se debe indicar la(s) capital(es) del país.</p>
+            <p><strong>Formato:</strong> Un arreglo de texto con una o más capitales (separadas por comas).</p>
+            <div class="example">Ejemplo: ["Buenos Aires"]</div>
+            <p><strong>Consideraciones:</strong> Cada capital debe tener entre 3 y 90 caracteres. Si el país tiene varias capitales, deben ser listadas todas.</p>
+
+            <h3>3. Fronteras</h3>
+            <p><strong>Descripción:</strong> Se deben listar los países fronterizos.</p>
+            <p><strong>Formato:</strong> Un arreglo de códigos de 3 letras (según el estándar ISO 3166-1 alpha-3).</p>
+            <div class="example">Ejemplo: ["ARG", "BRA", "CHL"]</div>
+            <p><strong>Consideraciones:</strong> Cada código de frontera debe ser un código de 3 letras. Si un país no tiene fronteras con otros, este campo puede dejarse vacío.</p>
+
+            <h3>4. Área</h3>
+            <p><strong>Descripción:</strong> El área total del país en kilómetros cuadrados.</p>
+            <p><strong>Formato:</strong> Número (valor positivo).</p>
+            <div class="example">Ejemplo: 2780400</div>
+            <p><strong>Consideraciones:</strong> El valor debe ser un número entero positivo, representando la extensión territorial del país en km².</p>
+
+            <h3>5. Población</h3>
+            <p><strong>Descripción:</strong> La población total del país.</p>
+            <p><strong>Formato:</strong> Número entero (valor positivo).</p>
+            <div class="example">Ejemplo: 44271000</div>
+            <p><strong>Consideraciones:</strong> Este valor debe ser un número entero, representando la cantidad de habitantes del país.</p>
+
+            <h3>6. Índice Gini</h3>
+            <p><strong>Descripción:</strong> El índice de Gini es un indicador que mide la desigualdad de ingresos entre los habitantes de un país. Se expresa como un porcentaje, y sus valores oscilan entre 0 y 100.</p>
+            <p><strong>Formato:</strong> Número decimal entre 0 y 100.</p>
+            <div class="example">Ejemplo: 40.5</div>
+            <p><strong>Consideraciones:</strong> El índice Gini debe estar entre 0 y 100, donde 0 representa igualdad perfecta y 100 representa máxima desigualdad.</p>
+
+            <h3>7. Zonas Horarias</h3>
+            <p><strong>Descripción:</strong> Las zonas horarias en las que se encuentra el país.</p>
+            <p><strong>Formato:</strong> Un arreglo de texto con las zonas horarias separadas por comas.</p>
+            <div class="example">Ejemplo: ["UTC-03:00"]</div>
+            <p><strong>Consideraciones:</strong> Las zonas horarias deben estar escritas correctamente, siguiendo el formato estándar (por ejemplo, UTC±hh:mm).</p>
+
+            <h3>8. Creador</h3>
+            <p><strong>Descripción:</strong> El nombre del alumno que ha ingresado los datos.</p>
+            <p><strong>Formato:</strong> Texto (hasta 100 caracteres).</p>
+            <div class="example">Ejemplo: "Virginia Alejandra Ponce"</div>
+            <p><strong>Consideraciones:</strong> Este campo se utilizará para identificar al creador de los datos, en caso de que sea necesario realizar algún seguimiento o validación.</p>
+
+            <div class="section procedure">
+                <h3>Procedimiento para Agregar un País</h3>
+                <ul>
+                    <li>Completar el formulario con los datos correspondientes.</li>
+                    <li>Verificar que los datos sean correctos antes de enviarlos.</li>
+                    <li>Guardar los datos en la base de datos y confirmar la correcta entrada del país.</li>
+                    <li>Recibir una confirmación de que el país ha sido agregado correctamente.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button onclick="window.location.href='/countries/add'">Agregar País</button>
+    </div>
+
+    <p>¡Explora las funcionalidades de la aplicación y empieza a gestionar los países!</p>
+</main>

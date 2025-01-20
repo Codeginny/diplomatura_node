@@ -1,0 +1,60 @@
+<div class="container">
+    <h2>Lista de Países</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Capital</th>
+                <th>Fronteras</th>
+                <th>Área</th>
+                <th>Población</th>
+                <th>Índice Gini</th>
+                <th>Zonas Horarias</th>
+                <th>Creador</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% let totalPopulation = 0; %>
+            <% let totalArea = 0; %>
+            <% let totalGini = 0; %>
+            <% let count = 0; %>
+            <% countries.forEach(country => { %>
+                <tr>
+                    <!-- Mostrar el nombre común -->
+                    <td><%= country.name.common %></td>
+                    <td><%= country.capital.join(', ') %></td>
+                    <td><%= country.borders.join(', ') %></td>
+                    <td><%= country.area %></td>
+                    <td><%= country.population %></td>
+                    <td><%= country.gini %></td>
+                    <td><%= country.timezones.join(', ') %></td>
+                    <td><%= country.creador %></td>
+                    <td>
+                        <a href="/countries/edit/<%= country._id %>" class="edit">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a href="/countries/delete/<%= country._id %>" class="delete">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </a>
+                    </td>
+                    
+                </tr>
+                <% totalPopulation += country.population; %>
+                <% totalArea += country.area; %>
+                <% totalGini += country.gini ? country.gini['2019'] : 0; %>
+                <% count++; %>
+            <% }) %>
+        </tbody>
+        <tfoot>
+            <tr class="totals-row">
+                <td colspan="4">Totales</td>
+                <td><%= totalPopulation %></td>
+                <td><%= (totalGini / count).toFixed(2) %></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
