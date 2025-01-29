@@ -16,10 +16,8 @@ const CountrySchema = new mongoose.Schema({
   area: { type: Number, required: true },
   population: { type: Number, required: true },
   gini: {
-    type: Number,
-    min: 0,     // Gini debe ser entre 0 y 100
-    max: 100,   // Gini debe ser entre 0 y 100
-    required: true
+    type: Object,
+    default: {},
   },
   timezones: [String],
   borders: [String],

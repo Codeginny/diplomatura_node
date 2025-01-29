@@ -1,16 +1,15 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import expressLayouts from 'express-ejs-layouts';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { connectDB } from './config/db.js'; // Función de conexión a la base de datos
-import routes from './routes/countries.js'; // Rutas de países
-import { errorMiddleware } from './middleware/error.js'; // Importación correcta del middleware de error
+import { connectDB } from './config/db.js';
+import routes from './routes/countries.js';
+import { errorMiddleware } from './middleware/error.js';
 import Country from './models/Country.mjs';
-import { body } from 'express-validator';
-import { validateCountry } from './validation/countryValidation.js';
+import { body } from 'express-validator'; // Soluciona problemas con formularios con methodoverride
+import validateCountry from './middleware/countryValidation.js';
+import methodOverride from 'method-override';
 
-// Inicialización de la app
 const app = express();
 const PORT = 3000;
 
@@ -22,10 +21,11 @@ const __dirname = path.dirname(__filename);
 connectDB();
 
 // Configuración de middlewares
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json()); // Procesar JSON
+app.use(express.urlencoded({ extended: true })); // Soluciona problemas con formularios con methodoverride
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressLayouts);
+app.use(methodOverride('_method')); // Permite el uso de DELETE y PUT en formularios
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.set('layout', 'layouts/main');
@@ -53,48 +53,31 @@ app.get('/countries/add', (req, res) =>
 app.post(
   '/countries/add',
   [
-    body('name')
-      .isLength({ min: 3, max: 90 })
-      .withMessage('El nombre debe tener entre 3 y 90 caracteres.'),
-    body('capital')
-      .isArray()
-      .withMessage('La capital debe ser un arreglo.')
-      .custom((value) =>
-        value.every((capital) => capital.length >= 3 && capital.length <= 90)
-      )
+    body('name').isLength({ min: 3, max: 90 }).withMessage('El nombre debe tener entre 3 y 90 caracteres.'),
+    body('capital').isArray().withMessage('La capital debe ser un arreglo.')
+      .custom((value) => value.every((capital) => capital.length >= 3 && capital.length <= 90))
       .withMessage('Cada capital debe tener entre 3 y 90 caracteres.'),
-    body('borders')
-      .isArray()
-      .withMessage('Las fronteras deben ser un arreglo.')
-      .custom((value) =>
-        value.every((border) => /^[A-Z]{3}$/.test(border))
-      )
+    body('borders').isArray().withMessage('Las fronteras deben ser un arreglo.')
+      .custom((value) => value.every((border) => /^[A-Z]{3}$/.test(border)))
       .withMessage('Cada frontera debe ser un código de 3 letras.'),
-    body('area')
-      .isFloat({ min: 1 })
-      .withMessage('El área debe ser un número positivo.'),
-    body('population')
-      .isInt({ min: 1 })
-      .withMessage('La población debe ser un número entero positivo.'),
-    body('gini')
-      .isFloat({ min: 0, max: 100 })
-      .withMessage('El índice Gini debe estar entre 0 y 100.'),
+    body('area').isFloat({ min: 1 }).withMessage('El área debe ser un número positivo.'),
+    body('population').isInt({ min: 1 }).withMessage('La población debe ser un número entero positivo.'),
+    body('gini').isFloat({ min: 0, max: 100 }).withMessage('El índice Gini debe estar entre 0 y 100.'),
     validateCountry,
   ],
   async (req, res) => {
-    const { name, capital, borders, area, population, gini, timezones, creator } = req.body;
-    const newCountry = new Country({
-      name: { common: name, official: name, nativeName: {} },
-      capital: [capital],
-      borders: borders.split(','),
-      area,
-      population,
-      gini: gini, // Esto es solo un número entre 0 y 100
-      timezones: timezones.split(','),
-      creador: creator || 'Ponce Virginia',
-    });
-
     try {
+      const { name, capital, borders, area, population, gini, timezones, creator } = req.body;
+      const newCountry = new Country({
+        name: { common: name, official: name, nativeName: {} },
+        capital,
+        borders,
+        area,
+        population,
+        gini: { '2019': gini },
+        timezones: timezones.split(','),
+        creador: creator || 'Ponce Virginia',
+      });
       await newCountry.save();
       res.redirect('/countries/list');
     } catch (err) {
@@ -108,9 +91,7 @@ app.post(
 app.get('/countries/edit/:id', async (req, res) => {
   try {
     const country = await Country.findById(req.params.id);
-    if (!country) {
-      return res.status(404).send('País no encontrado');
-    }
+    if (!country) return res.status(404).send('País no encontrado');
     res.render('edit-country', { country, title: 'Editar País' });
   } catch (err) {
     console.error(err);
@@ -118,87 +99,20 @@ app.get('/countries/edit/:id', async (req, res) => {
   }
 });
 
-
 app.post(
   '/countries/edit/:id',
   [
-    body('name')
-      .isLength({ min: 3, max: 90 })
-      .withMessage('El nombre debe tener entre 3 y 90 caracteres.'),
-
-    // Aseguramos que 'capital' sea un arreglo
-    body('capital')
-      .custom((value) => {
-        // Si 'capital' es una cadena de texto, la convertimos en arreglo
-        if (typeof value === 'string') {
-          value = [value];  // Convertimos el valor a un arreglo
-        }
-
-        // Validamos que sea un arreglo
-        if (!Array.isArray(value)) {
-          throw new Error('La capital debe ser un arreglo.');
-        }
-
-        // Validamos que cada capital tenga entre 3 y 90 caracteres
-        if (value.some((capital) => capital.length < 3 || capital.length > 90)) {
-          throw new Error('Cada capital debe tener entre 3 y 90 caracteres.');
-        }
-        return true;
-      }),
-
-    // Aseguramos que 'borders' sea un arreglo
-    body('borders')
-      .custom((value) => {
-        // Si 'borders' es una cadena de texto, la convertimos en arreglo
-        if (typeof value === 'string') {
-          value = value.split(',').map((border) => border.trim());  // Convertimos y limpiamos
-        }
-
-        // Validamos que sea un arreglo
-        if (!Array.isArray(value)) {
-          throw new Error('Las fronteras deben ser un arreglo.');
-        }
-
-        // Validamos que cada frontera tenga 3 letras
-        if (value.some((border) => border.length !== 3 || !/^[A-Z]{3}$/.test(border))) {
-          throw new Error('Cada frontera debe ser un código de 3 letras.');
-        }
-        return true;
-      }),
-
-    body('area')
-      .isFloat({ min: 1 })
-      .withMessage('El área debe ser un número positivo.'),
-
-    body('population')
-      .isInt({ min: 1 })
-      .withMessage('La población debe ser un número entero positivo.'),
-
-    body('gini')
-      .isFloat({ min: 0, max: 100 })
-      .withMessage('El índice Gini debe estar entre 0 y 100.'),
-
+    body('name').isLength({ min: 3, max: 90 }).withMessage('El nombre debe tener entre 3 y 90 caracteres.'),
+    body('capital').isArray().withMessage('La capital debe ser un arreglo.'),
+    body('borders').isArray().withMessage('Las fronteras deben ser un arreglo.'),
+    body('area').isFloat({ min: 1 }).withMessage('El área debe ser un número positivo.'),
+    body('population').isInt({ min: 1 }).withMessage('La población debe ser un número entero positivo.'),
+    body('gini').isFloat({ min: 0, max: 100 }).withMessage('El índice Gini debe estar entre 0 y 100.'),
     validateCountry,
   ],
   async (req, res) => {
-    const { name, capital, borders, area, population, gini, timezones, creator } = req.body;
-
     try {
-      const updatedCountry = await Country.findByIdAndUpdate(
-        req.params.id,
-        {
-          name: { common: name, official: name, nativeName: {} },
-          capital: capital, // 'capital' ya es un arreglo
-          borders: borders, // 'borders' ya es un arreglo
-          area,
-          population,
-          gini: { '2019': gini },
-          timezones: timezones.split(',').map((tz) => tz.trim()),
-          creador: creator || 'Ponce Virginia',
-        },
-        { new: true }
-      );
-
+      await Country.findByIdAndUpdate(req.params.id, req.body, { new: true });
       res.redirect('/countries/list');
     } catch (err) {
       console.error(err);
@@ -207,11 +121,7 @@ app.post(
   }
 );
 
-
-
-
-
-
+// Ruta para listar países
 app.get('/countries/list', async (req, res) => {
   try {
     const countries = await Country.find();
@@ -219,6 +129,17 @@ app.get('/countries/list', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error al obtener los países');
+  }
+});
+
+// Ruta para eliminar un país
+app.delete('/countries/delete/:id', async (req, res) => {
+  try {
+    await Country.findByIdAndDelete(req.params.id);
+    res.redirect('/countries/list');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error al eliminar el país');
   }
 });
 

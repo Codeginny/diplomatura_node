@@ -30,10 +30,13 @@ export const crearEditarPaisValidationRules = () => [
       .notEmpty().withMessage('La población es obligatoria')
       .isInt({ min: 1 }).withMessage('La población debe ser un número entero positivo'),
   
-    body('gini')
+      body('gini')
       .optional()
-      .isNumeric().withMessage('El índice Gini debe ser un número')
-      .custom(value => value >= 0 && value <= 100).withMessage('El índice Gini debe estar entre 0 y 100'),
+      .custom((value) => {
+        if (typeof value !== 'object' || value === null) return false;
+        return Object.values(value).every(num => typeof num === 'number' && num >= 0 && num <= 100);
+      }).withMessage('El índice Gini debe ser un mapa con valores numéricos entre 0 y 100'),
+    
   
     body('timezones')
       .notEmpty().withMessage('Las zonas horarias son obligatorias'),
@@ -70,3 +73,5 @@ export const validateCountry = (req, res, next) => {
   }
   next(); // No hay errores, continúa con la lógica
 };
+
+export default validateCountry;

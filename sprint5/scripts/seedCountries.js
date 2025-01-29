@@ -13,32 +13,44 @@ const getCountriesFromAPI = async () => {
             country.languages && Object.values(country.languages).includes('spanish')
         );
 
-        // Adecuar los países a los requerimientos del práctico
-        const countriesToSave = spanishSpeakingCountries.map(country => ({
-            name: { official: country.name.official, common: country.name.common },
-            capital: country.capital || ['Sin Capital'],
-            borders: country.borders || [],
-            area: country.area || 0,
-            population: country.population || 0,
-            gini: country.gini || { '2019': 0 },
-            gini: country.gini || 0, 
-            timezones: country.timezones || ['UTC'],
-            creador: 'Virginia Ponce',
-        }));
+        // Adecuar los datos a los requerimientos del práctico
+        const countriesToSave = spanishSpeakingCountries.map(country => {
+            console.log('Datos de Gini recibidos:', country.name.common, country.gini);
+        
+            const giniValue = country.gini && country.gini['2019'] 
+                ? parseFloat(country.gini['2019'].toFixed(1)) // Convertir a número con un decimal
+                : 0.0; // Valor por defecto si no existe
+        
+            return {
+                name: { official: country.name.official, common: country.name.common },
+                capital: country.capital || ['Sin Capital'],
+                borders: country.borders || [],
+                area: country.area || 0,
+                population: country.population || 0,
+                gini: giniValue, // Guardar como número con un decimal
+                timezones: country.timezones || ['UTC'],
+                creador: 'Virginia Ponce',
+            };
+        });
+        
 
-        // Guardar los países en la base de datos sin duplicados
+        // Guardar en la base de datos sin duplicados
         for (const country of countriesToSave) {
+            console.log('Guardando país:', country.name.common, 'con índice Gini:', country.gini); // Verificar antes de guardar
             const existingCountry = await Country.findOne({ 'name.common': country.name.common });
             if (!existingCountry) {
                 await Country.create(country);
             }
         }
 
-        console.log('Países con idioma español guardados exitosamente');
+        console.log('Países con idioma español guardados exitosamente.');
     } catch (error) {
         console.error('Error al obtener los países:', error);
     }
 };
+
+
+
 
 // Conectar a MongoDB
 mongoose.connect('mongodb+srv://Grupo-04:grupo04@cursadanodejs.ls9ii.mongodb.net/Node-js', { useNewUrlParser: true, useUnifiedTopology: true })

@@ -20,37 +20,59 @@
             <% let totalGini = 0; %>
             <% let count = 0; %>
             <% countries.forEach(country => { %>
-                <tr>
-                    <!-- Mostrar el nombre común -->
+                <tr id="country-<%= country._id %>">
                     <td><%= country.name.common %></td>
                     <td><%= country.capital.join(', ') %></td>
                     <td><%= country.borders.join(', ') %></td>
                     <td><%= country.area %></td>
                     <td><%= country.population %></td>
-                    <td><%= country.gini %></td>
+                    <td><%= country.gini && country.gini['2019'] ? country.gini['2019'] : 'N/A' %></td>
                     <td><%= country.timezones.join(', ') %></td>
                     <td><%= country.creador %></td>
                     <td>
                         <a href="/countries/edit/<%= country._id %>" class="edit">
                             <i class="fas fa-edit"></i> Editar
                         </a>
-                        <a href="/countries/delete/<%= country._id %>" class="delete">
-                            <i class="fas fa-trash"></i> Eliminar
-                        </a>
+                        
+                        <!-- Formulario para eliminar -->
+                        <form action="/countries/delete/<%= country._id %>?_method=DELETE" method="POST" class="delete-form">
+                            <button type="submit" class="delete-btn">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </form>
                     </td>
-                    
                 </tr>
-                <% totalPopulation += country.population; %>
-                <% totalArea += country.area; %>
-                <% totalGini += country.gini ? country.gini['2019'] : 0; %>
-                <% count++; %>
+                <% 
+                    if (!isNaN(country.population)) totalPopulation += country.population; 
+                    if (!isNaN(country.area)) totalArea += country.area; 
+                    if (country.gini && !isNaN(country.gini['2019'])) {
+                        totalGini += country.gini['2019'];
+                    }
+                    count++; 
+                %>
             <% }) %>
         </tbody>
         <tfoot>
             <tr class="totals-row">
-                <td colspan="4">Totales</td>
+                <td colspan="4"><strong>Total Población</strong></td>
                 <td><%= totalPopulation %></td>
-                <td><%= (totalGini / count).toFixed(2) %></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="totals-row">
+                <td colspan="4"><strong>Total Área</strong></td>
+                <td><%= totalArea %></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="totals-row">
+                <td colspan="4"><strong>Promedio Gini</strong></td>
+                <td><%= count > 0 ? (totalGini / count).toFixed(2) : 'N/A' %></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -58,3 +80,15 @@
         </tfoot>
     </table>
 </div>
+
+<!-- Script para confirmar eliminación -->
+<script>
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (confirm('¿Estás seguro de que quieres eliminar este país?')) {
+                this.submit();
+            }
+        });
+    });
+</script>
