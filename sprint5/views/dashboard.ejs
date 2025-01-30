@@ -7,33 +7,43 @@
             <h3>1. Nombre del País</h3>
             <p><strong>Descripción:</strong> El nombre oficial del país debe ser escrito en español.</p>
             <p><strong>Formato:</strong> Texto (entre 3 y 90 caracteres).</p>
-            <p><strong>Ejemplo:</strong> "República Argentina".</p>
+            <div class="example">Ejemplo: "Argentina"</div>
             <p><strong>Consideraciones:</strong> Asegúrate de escribir el nombre en su forma oficial y correcta.</p>
+            <p><strong>Validación:</strong> El nombre debe tener entre 3 y 90 caracteres. Se validará que sea un texto válido y que no contenga caracteres especiales o números.</p>
 
             <h3>2. Capital</h3>
             <p><strong>Descripción:</strong> Se debe indicar la(s) capital(es) del país.</p>
             <p><strong>Formato:</strong> Un arreglo de texto con una o más capitales (separadas por comas).</p>
             <div class="example">Ejemplo: ["Buenos Aires"]</div>
             <p><strong>Consideraciones:</strong> Cada capital debe tener entre 3 y 90 caracteres. Si el país tiene varias capitales, deben ser listadas todas.</p>
+            <p><strong>Validación:</strong> Cada elemento del arreglo de capitales debe tener entre 3 y 90 caracteres. Se validará que cada capital sea un texto correcto y que no se incluyan capitales con caracteres no válidos.</p>
 
             <h3>3. Fronteras</h3>
             <p><strong>Descripción:</strong> Se deben listar los países fronterizos.</p>
             <p><strong>Formato:</strong> Un arreglo de códigos de 3 letras (según el estándar ISO 3166-1 alpha-3).</p>
             <div class="example">Ejemplo: ["ARG", "BRA", "CHL"]</div>
             <p><strong>Consideraciones:</strong> Cada código de frontera debe ser un código de 3 letras. Si un país no tiene fronteras con otros, este campo puede dejarse vacío.</p>
+            <p><strong>Validación:</strong> Cada código en el arreglo debe ser una cadena de 3 letras mayúsculas. Se verificará que cada código siga el formato adecuado (ejemplo: "ARG", "BRA"). Si el arreglo está vacío, no habrá problema.</p>
 
             <h3>4. Área</h3>
             <p><strong>Descripción:</strong> El área total del país en kilómetros cuadrados.</p>
             <p><strong>Formato:</strong> Número (valor positivo).</p>
             <div class="example">Ejemplo: 2780400</div>
             <p><strong>Consideraciones:</strong> El valor debe ser un número entero positivo, representando la extensión territorial del país en km².</p>
+            <p><strong>Validación:</strong> El área debe ser un número entero positivo. Se validará que el valor ingresado sea un número entero y mayor que cero. Si el valor no cumple con este criterio, el sistema mostrará un error.</p>
 
             <h3>5. Población</h3>
             <p><strong>Descripción:</strong> La población total del país.</p>
             <p><strong>Formato:</strong> Número entero (valor positivo).</p>
             <div class="example">Ejemplo: 44271000</div>
             <p><strong>Consideraciones:</strong> Este valor debe ser un número entero, representando la cantidad de habitantes del país.</p>
+            <p><strong>Validación:</strong> La población debe ser un número entero positivo. Se validará que el número no sea negativo y que se ingrese un valor correcto para la cantidad de habitantes.</p>
 
+            </div>
+
+            <!-- Espacio agregado antes del Procedimiento -->
+            <div style="margin-top: 40px;"></div>
+        
             <div class="section procedure">
                 <h3>Procedimiento para Agregar un País</h3>
                 <ul>

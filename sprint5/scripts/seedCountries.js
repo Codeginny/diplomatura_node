@@ -56,6 +56,47 @@ const getCountriesFromAPI = async () => {
     }
 };
 
+
+// Modal para eliminar
+document.addEventListener("DOMContentLoaded", function() {
+    let modal = document.getElementById("confirm-modal");
+    let confirmBtn = document.getElementById("confirm-delete");
+    let cancelBtn = document.getElementById("cancel-delete");
+    let currentForm = null;
+
+    // Seleccionamos todos los botones de eliminar
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            // Buscamos el formulario padre del botón
+            currentForm = this.closest("form");
+            modal.style.display = "flex";
+        });
+    });
+
+    // Confirmar eliminación
+    confirmBtn.addEventListener("click", function() {
+        if (currentForm) {
+            currentForm.submit(); // Enviar formulario
+        }
+        modal.style.display = "none"; // Cerrar modal
+    });
+
+    // Cancelar eliminación
+    cancelBtn.addEventListener("click", function() {
+        modal.style.display = "none";
+    });
+
+    // Cerrar modal si el usuario hace clic fuera del contenido
+    window.addEventListener("click", function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
+
+
+
 // Conectar a MongoDB y ejecutar la función
 mongoose.connect('mongodb+srv://Grupo-04:grupo04@cursadanodejs.ls9ii.mongodb.net/Node-js', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
