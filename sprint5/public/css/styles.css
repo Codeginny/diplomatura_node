@@ -120,9 +120,9 @@ img {
 
 /* Formulario */
 form {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 20px;
+  max-width: 300px;
+  margin: 10px auto;
+  padding: 10px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -208,7 +208,7 @@ form button:active {
     padding-left: 20px;
 }
 
-/*Tablas*/
+/* Tablas */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -229,56 +229,56 @@ th {
 tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-td a {
-  padding: 6px 12px;
-  margin-right: 8px;
+
+/* Estilo general para los botones de acción */
+td form {
+  display: block;
+  margin-bottom: 5 px; /* Espaciado más pequeño entre botones */
+}
+
+td form button {
+  font-family: Arial, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 15px; /* Tamaño de los botones igual */
+  width: 100%; /* Asegura que los botones sean del mismo tamaño */
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
   text-decoration: none;
-  border-radius: 4px;
+}
+
+td .edit-btn {
+  background-color: #4CAF50; /* Verde para editar */
   color: white;
 }
 
-td a.edit,
-td a.delete {
-  display: inline-flex; /* Alinea el texto y el icono en una sola línea */
-  align-items: center; /* Centra verticalmente el texto con el icono */
-  padding: 5px 10px; /* Espaciado interno más pequeño para que los botones sean compactos */
-  border-radius: 5px; /* Bordes ligeramente redondeados */
-  font-weight: bold; /* Acentúa el texto */
-  transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
-  text-decoration: none; /* Elimina el subrayado en los enlaces */
-  margin-right: 10px; /* Espacio entre los botones */
-  margin-top: 5px; /* Espacio superior para separar los botones en el centro */
+td .delete-btn {
+  background-color: #f44336; /* Rojo para eliminar */
+  color: white;
 }
 
-td a.edit {
-  background-color: #4CAF50; /* Verde para el botón de editar */
-  color: white; /* Color blanco para el texto */
+/* Efectos al pasar el ratón */
+td .edit-btn:hover, td .delete-btn:hover {
+  background-color: #45a049; /* Verde más oscuro para editar */
+  transform: scale(1.05);
 }
 
-td a.delete {
-  background-color: #f44336; /* Rojo para el botón de eliminar */
-  color: white; /* Color blanco para el texto */
+td .delete-btn:hover {
+  background-color: #e53935; /* Rojo más oscuro para eliminar */
+  transform: scale(1.05);
 }
 
-td a.edit:hover {
-  background-color: #45a049; /* Verde más oscuro al pasar el ratón */
-  transform: scale(1.05); /* Aumenta ligeramente el tamaño del botón */
+/* Efectos al hacer clic */
+td .edit-btn:active, td .delete-btn:active {
+  transform: scale(0.98); /* Reduce ligeramente el tamaño */
 }
 
-td a.delete:hover {
-  background-color: #e53935; /* Rojo más oscuro al pasar el ratón */
-  transform: scale(1.05); /* Aumenta ligeramente el tamaño del botón */
+/* Espacio entre el icono y el texto */
+td .edit-btn i, td .delete-btn i {
+  margin-right: 5px;
 }
 
-td a.edit:active,
-td a.delete:active {
-  transform: scale(0.98); /* Reduce ligeramente el tamaño al hacer clic */
-}
-
-td a.edit i,
-td a.delete i {
-  margin-right: 5px; /* Espacio entre el icono y el texto */
-}
 
 
 /*Inicio*/

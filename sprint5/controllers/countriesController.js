@@ -5,9 +5,10 @@ import {
     actualizarPais, 
     eliminarPais, 
     obtenerYAlmacenarPaises, 
-    calculateDashboardMetrics // Importamos la función de cálculo
+    calculateDashboardMetrics
 } from '../services/countriesService.mjs';
 
+import { validationResult } from 'express-validator';
 import Country from '../models/Country.mjs';
 
 // Página de inicio
@@ -19,110 +20,88 @@ export const renderHomePage = (req, res) => {
 export const listCountries = async (req, res) => {
     try {
         const countries = await obtenerPaises();
-        if (!countries || countries.length === 0) throw new Error('No se encontraron países en la base de datos');
-
-        // Calcular los totales
-        const { totalPopulation, totalArea, avgGini } = calculateDashboardMetrics(countries);
-
-        // Pasar los totales a la vista
-        res.render('list', { 
-            countries, 
-            totalPopulation, 
-            totalArea, 
-            avgGini: avgGini.toFixed(1), // Asegúrate de que el Gini sea un número con un decimal
-            title: 'Lista de Países' 
-        });
+        if (!countries.length) throw new Error('No se encontraron países.');
+        
+        const { totalPopulation, totalArea } = calculateDashboardMetrics(countries);
+        res.render('list', { countries, totalPopulation, totalArea, title: 'Lista de Países' });
     } catch (error) {
         console.error('Error al listar países:', error.message);
         res.status(500).render('error', { message: 'Error al listar países.' });
     }
 };
 
-
 // Dashboard de países
 export const getDashboard = async (req, res) => {
     try {
-        const countries = await Country.find({}, { name: 1, gini: 1, population: 1, area: 1 });
-
-        // Utilizamos la función calculateDashboardMetrics
-        const { totalPopulation, totalArea, avgGini } = calculateDashboardMetrics(countries);
-
-        res.render('dashboard', { 
-            countries, 
-            totalPopulation, 
-            avgGini: avgGini.toFixed(1), 
-            totalArea, 
-            title: 'Dashboard de Países' 
-        });
+        const countries = await Country.find({}, { name: 1, population: 1, area: 1 });
+        const { totalPopulation, totalArea } = calculateDashboardMetrics(countries);
+        res.render('dashboard', { countries, totalPopulation, totalArea, title: 'Dashboard de Países' });
     } catch (error) {
         console.error('Error al obtener el dashboard:', error.message);
         res.status(500).render('error', { message: 'Error al cargar el dashboard.' });
     }
 };
 
-// Renderizar la página de agregar país
+// Página para agregar un nuevo país
 export const renderAddPage = (req, res) => {
-    res.render('add-country', { title: 'Agregar País' });
+    res.render('add', { title: 'Agregar País' });
 };
 
 // Agregar un nuevo país
 export const addCountry = async (req, res) => {
     try {
-        const { capital, borders, gini, ...rest } = req.body;
-        const paisData = {
-            ...rest,
-            capital: capital ? capital.split(',').map(cap => cap.trim()) : [],
-            borders: borders ? borders.split(',').map(border => border.trim()) : [],
-            gini: gini ? parseFloat(gini) : null,
-            creador: req.body.creador || 'Ponce Virginia'
-        };
-
-        if (gini < 0 || gini > 100) {
-            return res.status(400).render('error', { message: 'El índice Gini debe estar entre 0 y 100.' });
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).render('add', { errors: errors.array(), title: 'Agregar País' });
         }
 
-        await agregarPais(paisData);
+        const { name, capital, borders, area, population } = req.body;
+        const country = new Country({
+            name,
+            capital: Array.isArray(capital) ? capital : [capital],
+            borders: borders ? (Array.isArray(borders) ? borders : [borders]) : [],
+            area,
+            population
+        });
+
+        await country.save();
         req.flash('success', 'País agregado correctamente');
         res.redirect('/countries/list');
     } catch (error) {
         console.error('Error al agregar país:', error.message);
-        res.status(400).render('error', { message: 'Error al agregar país.' });
+        res.status(500).render('error', { message: 'Error al agregar país.' });
     }
 };
 
-// Renderizar la página de edición de un país
+// Página para editar un país
 export const renderEditPage = async (req, res) => {
     try {
         const country = await obtenerPaisPorId(req.params.id);
         if (!country) return res.status(404).render('error', { message: 'País no encontrado.' });
-        res.render('edit-country', { country, title: 'Editar País' });
+
+        res.render('edit', { country, title: 'Editar País' });
     } catch (error) {
-        console.error('Error al obtener país:', error.message);
-        res.status(500).render('error', { message: 'Error al cargar la página de edición.' });
+        console.error('Error al cargar el formulario de edición:', error.message);
+        res.status(500).render('error', { message: 'Error al cargar el formulario de edición.' });
     }
 };
 
 // Editar un país existente
 export const editCountry = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { name_common, name_official, capital, area, population, gini, timezones, borders } = req.body;
-
-        if (gini < 0 || gini > 100) {
-            return res.status(400).render('error', { message: 'El índice Gini debe estar entre 0 y 100.' });
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).render('edit', { errors: errors.array(), title: 'Editar País' });
         }
 
+        const { id } = req.params;
+        const { name_common, name_official, capital, area, population, borders } = req.body;
+
         const datosActualizados = {
-            name: { 
-                common: name_common, 
-                official: name_official, 
-                nativeName: { spa: { official: name_official, common: name_common } } 
-            },
+            name: { common: name_common, official: name_official },
             capital: capital ? capital.split(',').map(cap => cap.trim()) : [],
             area: parseFloat(area),
             population: parseInt(population, 10),
-            gini: gini ? parseFloat(gini) : null,
-            timezones: timezones ? timezones.split(',').map(tz => tz.trim()) : [],
             borders: borders ? borders.split(',').map(border => border.trim()) : [],
         };
 
@@ -141,13 +120,9 @@ export const editCountry = async (req, res) => {
 
 // Eliminar un país
 export const deleteCountry = async (req, res) => {
-    debugger
-    console.log(req.params)
-    const { id } = req.params; // Obtener el ID del país desde la URL
     try {
-        console.log(id)
-        const result = await Country.findByIdAndDelete(id); // Eliminar el país de la base de datos
-        console.log(result)
+        const { id } = req.params;
+        const result = await eliminarPais(id);
         if (!result) {
             return res.status(404).send('No se encontró el país para eliminar');
         }
@@ -157,9 +132,6 @@ export const deleteCountry = async (req, res) => {
         res.status(500).send('Error al eliminar el país');
     }
 };
-
-
-
 
 // Consumir API y almacenar países
 export const fetchAndStoreCountries = async (req, res) => {

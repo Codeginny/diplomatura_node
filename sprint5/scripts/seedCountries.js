@@ -5,59 +5,63 @@ import { Country } from '../models/Country.js'; // Asegúrate de que el modelo e
 // Función para obtener países de la API y guardarlos en la base de datos
 const getCountriesFromAPI = async () => {
     try {
+        console.log('🔄 Iniciando la obtención de países desde la API...');
+
         const response = await axios.get('https://restcountries.com/v3.1/all', { timeout: 60000 });
         const countries = response.data;
+        
+        console.log(`✅ Datos recibidos: ${countries.length} países encontrados.`);
 
-        // Filtrar países que tengan español como idioma
+        // Filtrar países que tienen español como idioma
         const spanishSpeakingCountries = countries.filter(country => 
-            country.languages && Object.values(country.languages).includes('spanish')
+            country.languages && country.languages.spa
         );
 
-        // Adecuar los datos a los requerimientos del práctico
+        console.log(`🌎 Países hispanohablantes encontrados: ${spanishSpeakingCountries.length}`);
+
+        // Adecuar los datos al modelo
         const countriesToSave = spanishSpeakingCountries.map(country => {
-            console.log('Datos de Gini recibidos:', country.name.common, country.gini);
-        
-            const giniValue = country.gini && country.gini['2019'] 
-                ? parseFloat(country.gini['2019'].toFixed(1)) // Convertir a número con un decimal
-                : 0.0; // Valor por defecto si no existe
-        
+            const officialNameSpa = country.name.nativeName?.spa?.official || country.name.official;
+            
+            console.log(`📍 Procesando: ${officialNameSpa}`);
+
             return {
-                name: { official: country.name.official, common: country.name.common },
+                name: { 
+                    official: officialNameSpa,  
+                    common: country.name.common 
+                },
                 capital: country.capital || ['Sin Capital'],
                 borders: country.borders || [],
                 area: country.area || 0,
                 population: country.population || 0,
-                gini: giniValue, // Guardar como número con un decimal
-                timezones: country.timezones || ['UTC'],
-                creador: 'Virginia Ponce',
             };
         });
-        
+
+        console.log('📋 Lista de países listos para guardar en la base de datos:', countriesToSave);
 
         // Guardar en la base de datos sin duplicados
         for (const country of countriesToSave) {
-            console.log('Guardando país:', country.name.common, 'con índice Gini:', country.gini); // Verificar antes de guardar
-            const existingCountry = await Country.findOne({ 'name.common': country.name.common });
+            const existingCountry = await Country.findOne({ 'name.official': country.name.official });
             if (!existingCountry) {
                 await Country.create(country);
+                console.log(`✅ País guardado: ${country.name.official}`);
+            } else {
+                console.log(`⚠️ País ya existente en la base de datos: ${country.name.official}`);
             }
         }
 
-        console.log('Países con idioma español guardados exitosamente.');
+        console.log('🎉 Proceso de guardado completado.');
     } catch (error) {
-        console.error('Error al obtener los países:', error);
+        console.error('❌ Error al obtener los países:', error);
     }
 };
 
-
-
-
-// Conectar a MongoDB
+// Conectar a MongoDB y ejecutar la función
 mongoose.connect('mongodb+srv://Grupo-04:grupo04@cursadanodejs.ls9ii.mongodb.net/Node-js', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
-        console.log('Conexión a MongoDB exitosa');
+        console.log('✅ Conexión a MongoDB exitosa.');
         getCountriesFromAPI(); // Llamar a la función para obtener y guardar los países
     })
     .catch(err => {
-        console.error('Error de conexión a MongoDB:', err);
+        console.error('❌ Error de conexión a MongoDB:', err);
     });

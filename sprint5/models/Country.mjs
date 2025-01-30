@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'; // Importación correcta de mongoose
 
-// Definir el esquema de Country
+// Esquema de Country
 const CountrySchema = new mongoose.Schema({
   name: {
     common: { type: String, required: true },
@@ -15,14 +15,7 @@ const CountrySchema = new mongoose.Schema({
   capital: [String],
   area: { type: Number, required: true },
   population: { type: Number, required: true },
-  gini: {
-    type: Object,
-    default: {},
-  },
-  timezones: [String],
   borders: [String],
-  creador: { type: String, default: 'Virginia Alejandra Ponce' },
-  // Añadir más campos si es necesario
 });
 
 // Crear el modelo

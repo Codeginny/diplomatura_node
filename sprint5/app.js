@@ -7,8 +7,9 @@ import routes from './routes/countries.js';
 import { errorMiddleware } from './middleware/error.js';
 import Country from './models/Country.mjs';
 import { body } from 'express-validator'; // Soluciona problemas con formularios con methodoverride
-import validateCountry from './middleware/countryValidation.js';
+import { validateCountry } from './middleware/countryValidation.js';
 import methodOverride from 'method-override';
+
 
 const app = express();
 const PORT = 3000;
@@ -53,39 +54,72 @@ app.get('/countries/add', (req, res) =>
 app.post(
   '/countries/add',
   [
-    body('name').isLength({ min: 3, max: 90 }).withMessage('El nombre debe tener entre 3 y 90 caracteres.'),
-    body('capital').isArray().withMessage('La capital debe ser un arreglo.')
-      .custom((value) => value.every((capital) => capital.length >= 3 && capital.length <= 90))
-      .withMessage('Cada capital debe tener entre 3 y 90 caracteres.'),
-    body('borders').isArray().withMessage('Las fronteras deben ser un arreglo.')
-      .custom((value) => value.every((border) => /^[A-Z]{3}$/.test(border)))
-      .withMessage('Cada frontera debe ser un código de 3 letras.'),
-    body('area').isFloat({ min: 1 }).withMessage('El área debe ser un número positivo.'),
-    body('population').isInt({ min: 1 }).withMessage('La población debe ser un número entero positivo.'),
-    body('gini').isFloat({ min: 0, max: 100 }).withMessage('El índice Gini debe estar entre 0 y 100.'),
+    body('name')
+      .isLength({ min: 3, max: 90 })
+      .withMessage('El nombre debe tener entre 3 y 90 caracteres.'),
+      
+    body('capital')
+      .custom(value => Array.isArray(value) || typeof value === 'string')
+      .withMessage('La capital debe ser un arreglo o una cadena de texto.'),
+    
+    body('borders')
+      .custom(value => Array.isArray(value) || typeof value === 'string')
+      .withMessage('Las fronteras deben ser un arreglo o una cadena de texto.'),
+
+    body('area')
+      .isFloat({ min: 1 })
+      .withMessage('El área debe ser un número positivo.'),
+
+    body('population')
+      .isInt({ min: 1 })
+      .withMessage('La población debe ser un número entero positivo.'),
+
     validateCountry,
   ],
   async (req, res) => {
     try {
-      const { name, capital, borders, area, population, gini, timezones, creator } = req.body;
-      const newCountry = new Country({
-        name: { common: name, official: name, nativeName: {} },
-        capital,
-        borders,
-        area,
-        population,
-        gini: { '2019': gini },
-        timezones: timezones.split(','),
-        creador: creator || 'Ponce Virginia',
-      });
+      const { capital, borders, ...rest } = req.body;
+
+      console.log('Datos recibidos:', req.body);
+
+      const capitalArray = Array.isArray(capital)
+        ? capital
+        : capital.split(',').map(cap => cap.trim());
+
+      const bordersArray = Array.isArray(borders)
+        ? borders
+        : borders.split(',').map(border => border.trim());
+
+      const newData = {
+        ...rest,
+        capital: capitalArray,
+        borders: bordersArray,
+        name: {
+          common: rest.name,
+          official: rest.name,
+          nativeName: {
+            spa: {
+              common: rest.name,
+              official: rest.name
+            }
+          }
+        }
+      };
+
+      console.log('Datos a guardar:', newData);
+
+      const newCountry = new Country(newData);
       await newCountry.save();
       res.redirect('/countries/list');
     } catch (err) {
-      console.error(err);
+      console.error('Error al agregar el país:', err);
       res.status(500).send('Error al agregar el país');
     }
   }
 );
+
+
+
 
 // Ruta para la edición de un país
 app.get('/countries/edit/:id', async (req, res) => {
@@ -99,27 +133,73 @@ app.get('/countries/edit/:id', async (req, res) => {
   }
 });
 
+
 app.post(
   '/countries/edit/:id',
   [
-    body('name').isLength({ min: 3, max: 90 }).withMessage('El nombre debe tener entre 3 y 90 caracteres.'),
-    body('capital').isArray().withMessage('La capital debe ser un arreglo.'),
-    body('borders').isArray().withMessage('Las fronteras deben ser un arreglo.'),
-    body('area').isFloat({ min: 1 }).withMessage('El área debe ser un número positivo.'),
-    body('population').isInt({ min: 1 }).withMessage('La población debe ser un número entero positivo.'),
-    body('gini').isFloat({ min: 0, max: 100 }).withMessage('El índice Gini debe estar entre 0 y 100.'),
+    body('name')
+      .isLength({ min: 3, max: 90 })
+      .withMessage('El nombre debe tener entre 3 y 90 caracteres.'),
+    body('capital')
+      .custom(value => Array.isArray(value) || typeof value === 'string')
+      .withMessage('La capital debe ser un arreglo o una cadena de texto.'),
+    body('borders')
+      .custom(value => Array.isArray(value) || typeof value === 'string')
+      .withMessage('Las fronteras deben ser un arreglo o una cadena de texto.'),
+    body('area')
+      .isFloat({ min: 1 })
+      .withMessage('El área debe ser un número positivo.'),
+    body('population')
+      .isInt({ min: 1 })
+      .withMessage('La población debe ser un número entero positivo.'),
     validateCountry,
   ],
   async (req, res) => {
     try {
-      await Country.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      const { capital, borders, ...rest } = req.body;
+
+      console.log(req.body);
+      console.log(rest);
+
+      const updatedData = {
+        ...rest,
+        capital: Array.isArray(capital)
+          ? capital
+          : capital.split(',').map(cap => cap.trim()),
+        borders: Array.isArray(borders)
+          ? borders
+          : borders.split(',').map(border => border.trim()),
+        name: {
+          common: rest.name,
+          official: rest.name,
+          nativeName: {
+            spa: {
+              common: rest.name,
+              official: rest.name
+            }
+          }
+        }
+      };
+
+      const updatedCountry = await Country.findByIdAndUpdate(
+        req.params.id,
+        updatedData,
+        { new: true }
+      );
+
+      if (!updatedCountry) {
+        return res.status(404).json({ error: 'País no encontrado' });
+      }
+
       res.redirect('/countries/list');
     } catch (err) {
       console.error(err);
-      res.status(500).send('Error al actualizar el país');
+      res.status(500).json({ error: 'Error al actualizar el país' });
     }
   }
 );
+
+
 
 // Ruta para listar países
 app.get('/countries/list', async (req, res) => {

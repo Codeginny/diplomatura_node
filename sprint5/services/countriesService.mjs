@@ -73,11 +73,10 @@ export const obtenerYAlmacenarPaises = async () => {
   }
 };
 
-// Calcular las métricas del dashboard (Población total, Área total, Promedio Gini)
+// Calcular las métricas del dashboard (Población total, Área total)
 export const calculateDashboardMetrics = (countries) => {
   const totalPopulation = countries.reduce((acc, country) => acc + (country.population || 0), 0);
   const totalArea = countries.reduce((acc, country) => acc + (country.area || 0), 0);
-  const avgGini = countries.filter(c => c.gini).reduce((acc, c, _, arr) => acc + c.gini / arr.length, 0);
-  return { totalPopulation, totalArea, avgGini };
+  return { totalPopulation, totalArea };
 };
 

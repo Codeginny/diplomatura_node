@@ -3,21 +3,17 @@
     <table>
         <thead>
             <tr>
-                <th>Nombre</th>
+                <th>Nombre oficial</th>
                 <th>Capital</th>
                 <th>Fronteras</th>
                 <th>Área</th>
                 <th>Población</th>
-                <th>Índice Gini</th>
-                <th>Zonas Horarias</th>
-                <th>Creador</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             <% let totalPopulation = 0; %>
             <% let totalArea = 0; %>
-            <% let totalGini = 0; %>
             <% let count = 0; %>
             <% countries.forEach(country => { %>
                 <tr id="country-<%= country._id %>">
@@ -26,28 +22,26 @@
                     <td><%= country.borders.join(', ') %></td>
                     <td><%= country.area %></td>
                     <td><%= country.population %></td>
-                    <td><%= country.gini && country.gini['2019'] ? country.gini['2019'] : 'N/A' %></td>
-                    <td><%= country.timezones.join(', ') %></td>
-                    <td><%= country.creador %></td>
                     <td>
-                        <a href="/countries/edit/<%= country._id %>" class="edit">
-                            <i class="fas fa-edit"></i> Editar
-                        </a>
-                        
+                        <!-- Formulario para editar -->
+                        <form action="/countries/edit/<%= country._id %>" method="GET" class="edit">
+                            <button type="submit" class="edit-btn">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                        </form>
+                    
                         <!-- Formulario para eliminar -->
-                        <form action="/countries/delete/<%= country._id %>?_method=DELETE" method="POST" class="delete-form">
+                        <form action="/countries/delete/<%= country._id %>?_method=DELETE" method="POST" class="delete">
                             <button type="submit" class="delete-btn">
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>
                         </form>
                     </td>
+                    
                 </tr>
                 <% 
                     if (!isNaN(country.population)) totalPopulation += country.population; 
                     if (!isNaN(country.area)) totalArea += country.area; 
-                    if (country.gini && !isNaN(country.gini['2019'])) {
-                        totalGini += country.gini['2019'];
-                    }
                     count++; 
                 %>
             <% }) %>
@@ -64,14 +58,6 @@
             <tr class="totals-row">
                 <td colspan="4"><strong>Total Área</strong></td>
                 <td><%= totalArea %></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr class="totals-row">
-                <td colspan="4"><strong>Promedio Gini</strong></td>
-                <td><%= count > 0 ? (totalGini / count).toFixed(2) : 'N/A' %></td>
                 <td></td>
                 <td></td>
                 <td></td>
