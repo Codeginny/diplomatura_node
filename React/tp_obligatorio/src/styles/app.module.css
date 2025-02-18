@@ -1,0 +1,100 @@
+/* Estilos específicos para el archivo Home.jsx, Contact.jsx, About.jsx */
+
+.hero-section {
+  background-color: #fff0f6; /* Rosa pastel */
+  padding: 4rem 2rem;
+  border-radius: 1.5rem;
+}
+
+.hero-title {
+  font-family: 'Lilita One', sans-serif;
+  color: #fff;
+  font-size: 3rem;
+}
+
+.hero-subtitle {
+  color: #ffffff;
+  font-size: 1.25rem;
+}
+
+.hero-button {
+  background-color: #f03a7f;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.hero-button:hover {
+  background-color: #f24d90;
+}
+
+.product-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+}
+
+.product-card img {
+  border-radius: 1rem;
+  width: 100%;
+  height: auto;
+}
+
+.product-card-title {
+  font-family: 'Lilita One', sans-serif;
+  color: #f03a7f;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.product-card-description {
+  color: #777;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.add-to-cart-button {
+  background-color: #f03a7f;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+  background-color: #f24d90;
+}
+
+.cta-section {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.cta-section h2 {
+  font-family: 'Lilita One', sans-serif;
+  font-size: 2.5rem;
+  color: #fff;
+}
+
+.cta-button {
+  background-color: #68d391;
+  color: white;
+  padding: 1rem 3rem;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #48bb78;
+}
