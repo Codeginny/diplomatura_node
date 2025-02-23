@@ -1,0 +1,252 @@
+/* General Styles */
+body {
+    font-family: 'Gotham', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e3f2fd; /* Fondo azul claro */
+    color: #333; /* Texto principal */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem 2rem;
+    background-color: #01579b; /* Fondo azul oscuro */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+header .btn {
+    padding: 0.5rem 1.5rem;
+    background-color: #0288d1; /* Botón azul */
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+header .btn:hover {
+    background-color: #0277bd; /* Azul más oscuro */
+    transform: scale(1.05); /* Pequeña ampliación */
+}
+
+/* About */
+.about-us {
+    text-align: center;
+    padding: 20px;
+    text-align: justify;
+}
+
+.about-us p {
+    line-height: 1.5;
+}
+
+/* Contact */
+.contact-info {
+    text-align: center; /* Centra el texto horizontalmente */
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #01579b; /* Fondo azul oscuro */
+    color: white;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    margin: 0 1rem;
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: #81d4fa; /* Fondo azul claro */
+    color: #01579b; /* Texto azul oscuro */
+}
+
+/* Buttons */
+button, .btn-blue {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #0288d1;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    text-decoration: none; /* Para los enlaces */
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover, .btn-blue:hover {
+    background-color: #0277bd;
+    transform: scale(1.05);
+}
+
+/* Main Content */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Special Buttons */
+.special-buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.special-buttons a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    color: white;
+    background-color: #0288d1; /* Botones azules */
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.special-buttons a:hover {
+    background-color: #0277bd; /* Azul más oscuro */
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    width: 100%; /* Ocupa todo el ancho */
+    padding: 1rem 2rem;
+    text-align: center;
+    background-color: #01579b;
+    color: white;
+    margin-top: auto;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+form label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #01579b; /* Azul oscuro */
+}
+
+form input[type="text"],
+form input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus {
+    border-color: #0288d1;
+    outline: none;
+    box-shadow: 0 0 4px rgba(2, 136, 209, 0.5);
+}
+
+form button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #0288d1;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+form button:hover {
+    background-color: #0277bd;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 1.5rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    form label {
+        font-size: 0.9rem;
+    }
+
+    form button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
