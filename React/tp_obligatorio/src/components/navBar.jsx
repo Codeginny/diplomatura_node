@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { List, X } from "react-bootstrap-icons";
+import Link from "next/link";  // Importamos Link para navegar entre páginas
+
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,22 +22,36 @@ const NavBar = () => {
 
         {/* Menú Desktop */}
         <ul className="hidden md:flex space-x-6 text-lg text-white">
-          {["Inicio", "Nosotros", "Contacto"].map((item, index) => (
-            <motion.li
-              key={index}
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="cursor-pointer hover:text-fuchsia-500"
-            >
-              {item}
-            </motion.li>
-          ))}
+          {["Inicio", "Nosotros", "Contacto"].map((item, index) => {
+            let route;
+            // Definir la ruta para cada item
+            if (item === "Inicio") {
+              route = "/";
+            } else if (item === "Nosotros") {
+              route = "/about";
+            } else if (item === "Contacto") {
+              route = "/contact";
+            }
+            
+            return (
+              <motion.li
+                key={index}
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="cursor-pointer hover:text-fuchsia-500"
+              >
+                <Link href={route}>
+                  {item}
+                </Link>
+              </motion.li>
+            );
+          })}
         </ul>
 
         {/* Menú Mobile */}
         <div className="md:hidden">
           <button onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X size={30} color="white" /> : <Menu size={30} color="white" />}
+            {menuOpen ? <X size={30} color="white" /> : <List size={30} color="white" />}
           </button>
         </div>
       </div>
@@ -48,9 +64,16 @@ const NavBar = () => {
           animate={{ opacity: 1, y: 0 }} 
           transition={{ duration: 0.3 }}
         >
-          {["Inicio", "Nosotros", "Contacto"].map((item, index) => (
-            <li key={index} className="cursor-pointer text-center">{item}</li>
-          ))}
+          {["Inicio", "Nosotros", "Contacto"].map((item, index) => {
+            const route = item === "Inicio" ? "/" : item === "Nosotros" ? "/about" : "/contact";
+            return (
+              <li key={index} className="cursor-pointer text-center">
+                <Link href={route}>
+                  {item}
+                </Link>
+              </li>
+            );
+          })}
         </motion.ul>
       )}
     </nav>

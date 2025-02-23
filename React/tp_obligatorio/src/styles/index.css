@@ -1,14 +1,17 @@
+/* Importación de fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Lilita+One&display=swap');
+
+/* Incluir los estilos base de Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Lilita+One&display=swap');
-
+/* Reset global para márgenes, padding y box-sizing */
 html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Pacifico', cursive, sans-serif;
+  font-family: 'Pacifico', cursive, sans-serif; /* Usando la fuente Pacifico */
   background-color: #f9f9f9;
   color: #333;
 }
@@ -17,14 +20,13 @@ body {
   box-sizing: border-box;
 }
 
+/* No resaltar enlaces */
 a {
   text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-p {
+/* Reglas generales para títulos y párrafos */
+h1, h2, h3, p {
   margin: 0;
 }
 
@@ -32,24 +34,26 @@ body {
   font-size: 16px;
 }
 
+/* Colores personalizados de fondo */
 .bg-gradient-to-r {
-  background-image: linear-gradient(to right, #f03a7f, #f94e93, #d0c7e3);
+  background-image: linear-gradient(to right, #f03a7f, #f94e93, #d0c7e3); /* Gradient personalizado */
 }
 
+/* Colores fucsias y verdes */
 .bg-fuchsia-500 {
-  background-color: #f03a7f;
+  background-color: #f03a7f; /* Fucsia pastel */
 }
 
 .bg-fuchsia-600 {
-  background-color: #f24d90;
+  background-color: #f24d90; /* Fucsia oscuro */
 }
 
 .bg-green-400 {
-  background-color: #68d391;
+  background-color: #68d391; /* Verde agua */
 }
 
 .bg-green-500 {
-  background-color: #48bb78;
+  background-color: #48bb78; /* Verde medio */
 }
 
 .text-white {
@@ -61,7 +65,7 @@ body {
 }
 
 .text-fuchsia-600 {
-  color: #f03a7f;
+  color: #f03a7f; /* Fucsia */
 }
 
 .text-xl {
@@ -92,14 +96,16 @@ body {
   font-weight: semi-bold;
 }
 
+/* Fuente personalizada */
 .font-lilita {
-  font-family: 'Lilita One', cursive;
+  font-family: 'Lilita One', cursive; /* Fuente Lilita One */
 }
 
 .font-pacifico {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Pacifico', cursive; /* Fuente Pacifico */
 }
 
+/* Bordes redondeados */
 .rounded-lg {
   border-radius: 1rem;
 }
@@ -108,14 +114,17 @@ body {
   border-radius: 9999px;
 }
 
+/* Sombra de elementos */
 .shadow-lg {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Transición suave */
 .transition {
   transition: all 0.3s ease;
 }
 
+/* Efectos de hover */
 .hover\:bg-fuchsia-600:hover {
   background-color: #f24d90;
 }
@@ -124,10 +133,7 @@ body {
   background-color: #48bb78;
 }
 
-.hover\:bg-fuchsia-600:hover {
-  background-color: #f24d90;
-}
-
+/* Estilos flexibles */
 .flex {
   display: flex;
 }
@@ -140,26 +146,32 @@ body {
   justify-content: center;
 }
 
+/* Estilos grid - Ajustando el grid para que no se desborde */
 .grid {
   display: grid;
+  grid-template-columns: repeat(1, 1fr); /* Por defecto una columna */
+  gap: 1rem; /* Espacio entre los elementos del grid */
+  padding: 1rem; /* Espacio alrededor del grid */
 }
 
-.grid-cols-1 {
-  grid-template-columns: repeat(1, 1fr);
-}
-
+/* Cuando el tamaño de pantalla es mayor, se usan más columnas */
 .sm\:grid-cols-2 {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+}
+
+.md\:grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas en pantallas medianas y grandes */
 }
 
 .lg\:grid-cols-3 {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas para pantallas grandes */
 }
 
 .gap-6 {
-  gap: 1.5rem;
+  gap: 1.5rem; /* Gap entre elementos */
 }
 
+/* Márgenes personalizados */
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -180,6 +192,7 @@ body {
   margin-top: 4rem;
 }
 
+/* Paddings personalizados */
 .px-6 {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -205,15 +218,13 @@ body {
   padding-bottom: 1.5rem;
 }
 
-.font-semibold {
-  font-weight: semi-bold;
-}
-
+/* Ajustes de padding en pantallas medianas */
 .md\:px-12 {
   padding-left: 3rem;
   padding-right: 3rem;
 }
 
+/* Media queries para responsive */
 @media (min-width: 640px) {
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, 1fr);
@@ -221,7 +232,39 @@ body {
 }
 
 @media (min-width: 1024px) {
-  .lg\:grid-cols-3 {
+  .sm\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .md\:grid-cols-3 {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Fondo en toda la pantalla para la vista móvil */
+.bg-gradient-full {
+  background: linear-gradient(to right, #f03a7f, #f94e93, #d0c7e3);  
+  min-height: 100vh; /* Asegura que el fondo cubra toda la altura de la pantalla */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Asegurarse de que el grid ocupe el 100% del alto disponible */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1.5rem; /* Ajusta el espacio entre los productos */
+  margin: 0 auto; /* Centra el grid */
+  max-width: 1200px; /* Limita el ancho del grid */
+}
+
+@media (min-width: 640px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* En pantallas más grandes, dos columnas */
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr); /* En pantallas grandes, tres columnas */
   }
 }
