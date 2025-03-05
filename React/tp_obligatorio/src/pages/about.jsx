@@ -1,13 +1,22 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Heart, Star } from "react-bootstrap-icons";
+import { Heart, StarFill, Star } from "react-bootstrap-icons";
 import NavBar from "../components/navBar"; 
 import Footer from "../components/footer"; 
 
 const About = () => {
+
+  const [estrellaRellena, setEstrellaRellena] = useState(false);
+
+  const alternarEstrella = () => {
+    setEstrellaRellena(!estrellaRellena);
+  };
+  
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-pink-200 via-pink-300 to-pink-400">
       {/* NavBar */}
-      <NavBar /> {/* Agregamos el navBar al inicio */}
+      <NavBar /> {/* navBar al inicio */}
 
       {/* Contenido Principal */}
       <div className="flex flex-col items-center justify-center flex-grow">
@@ -58,23 +67,30 @@ const About = () => {
             </motion.div>
 
             <motion.div 
-              className="flex flex-col items-center"
+              className="flex flex-col items-center cursor-pointer"
               initial={{ opacity: 0, y: 20 }} 
               animate={{ opacity: 1, y: 0 }} 
               transition={{ duration: 0.5 }}
+              onClick={alternarEstrella} // para cambiar la estrella
             >
-              <Star size={48} />
+              {/* Si estrellaRellena es true, muestra StarFill, si es false, muestra Star */}
+              {estrellaRellena ? <StarFill size={48} /> : <Star size={48} />}
               <p className="mt-2 text-xl font-semibold">Calidad</p>
             </motion.div>
           </div>
         </div>
 
-        {/* Imagen Representativa */}
+        {/* Imagen Representativa con animacion */}
         <motion.div 
           className="mt-0 mb-0 mx-auto"
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 1, y: 0 }} 
+          animate={{ y: [0, 20, 0] }}  // Mueve la imagen hacia arriba y abajo
+          transition={{
+            duration: 2,        // Duración del ciclo completo
+            repeat: Infinity,   // Repite infinitamente
+            repeatType: "loop", // Vuelve al inicio después de cada ciclo
+            ease: "easeInOut"   // Suaviza la animación
+          }}
         >
           <img src="/donut-4.png" alt="Donut 3" className="w-4/5 max-w-xl mx-auto" />
         </motion.div>
@@ -93,7 +109,7 @@ const About = () => {
       </div>
 
       {/* Footer */}
-      <Footer /> {/* Agregamos el Footer al final */}
+      <Footer /> {/* Footer */}
     </div>
   );
 };

@@ -24,7 +24,7 @@ const Index = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl font-bold text-white font-lilita mb-4">Bienvenidos a Sweet Donut</h1>
+          <h1 className="text-5xl font-bold text-white font-lilita mb-4">Bienvenidos a Sweet Donuts</h1>
           <p className="text-xl text-white mb-6">Las mejores donas artesanales, frescas y deliciosas. ¡Disfruta de un sabor único!</p>
           <button
             onClick={toggleDiscount}

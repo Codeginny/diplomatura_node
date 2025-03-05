@@ -1,40 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Proyecto de Landing Page en React
 
-## Getting Started
+Este proyecto consiste en una **Landing Page** interactiva para una tienda de donas. La página está construida con **React** utilizando **Next.js** para la estructuración y optimización de las rutas y el renderizado del lado del servidor. Se implementaron animaciones con **Framer Motion** y se utilizó **Tailwind CSS** para un diseño moderno y responsivo.
 
-First, run the development server:
+## Características principales:
+- Diseño responsivo y estilizado con **Tailwind CSS**.
+- Uso de componentes de **React** para estructurar la página (Navbar, Footer, etc.).
+- Animaciones en la entrada de elementos utilizando **Framer Motion**.
+- Funcionalidades interactivas con eventos en **JSX** (por ejemplo, `onClick`).
+- Renderizado condicional de contenido según el estado de la aplicación.
+- Manejo de estados utilizando el hook **useState**.
+- Instalación de **Google Fonts** y **Bootstrap Icons** para una mejor experiencia visual.
 
-```bash
+## Tecnologías Usadas
+- **Next.js**: Framework basado en React para la creación de aplicaciones web con renderizado del lado del servidor y optimización automática.
+- **React**: Librería de JavaScript para construir interfaces de usuario interactivas.
+- **Tailwind CSS**: Framework de CSS de bajo nivel que permite construir interfaces rápidamente con clases utilitarias.
+- **Framer Motion**: Biblioteca para animaciones y transiciones fluidas.
+- **Google Fonts**: Fuentes personalizadas para mejorar la tipografía de la página.
+- **Bootstrap Icons**: Iconos listos para usar que mejoran la estética y la usabilidad.
+
+Ejecución del Proyecto
+Para iniciar el servidor de desarrollo, ejecuta el siguiente comando:
+
 npm run dev
-# or
+# o
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Esto abrirá el servidor en http://localhost:3000, donde podrás ver el resultado en tu navegador.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Estructura del Proyecto
+La estructura básica del proyecto es la siguiente:
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+Uso de Tailwind CSS
+Se instaló Tailwind CSS para la gestión de los estilos. Puedes personalizar el diseño mediante clases de Tailwind directamente en los componentes de React. Asegúrate de que el archivo globals.css esté configurado correctamente para incluir las directivas de Tailwind:
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+/* globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-## Learn More
+Uso de Google Fonts
+Se utilizaron fuentes personalizadas con el siguiente enlace de Google Fonts en el archivo _document.js para optimizar la carga de las fuentes:
 
-To learn more about Next.js, take a look at the following resources:
+<link
+  href="https://fonts.googleapis.com/css2?family=Pacifico&family=Lilita+One&display=swap"
+  rel="stylesheet"
+/>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+Animaciones con Framer Motion
+Se implementaron animaciones en los componentes con Framer Motion para hacer la página más atractiva. Un ejemplo de animación de entrada de un componente:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+<motion.div 
+  initial={{ opacity: 0, y: 20 }} 
+  animate={{ opacity: 1, y: 0 }} 
+  transition={{ duration: 0.5 }}
+>
+  <img src="/donut-4.png" alt="Donut" />
+</motion.div>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+Alumna: Ponce Virginia Alejandra
