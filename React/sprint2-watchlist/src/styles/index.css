@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilo Netflix */
+:root {
+  --netflix-dark: #141414;
+  --netflix-red: #e50914;
+  --netflix-light: #ffffff;
+  --netflix-gray: #b3b3b3;
+
+  font-family: "Arial", sans-serif;
+  color: var(--netflix-light);
+  background-color: var(--netflix-dark);
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enlaces */
+a {
+  font-weight: 500;
+  color: var(--netflix-red);
+  text-decoration: none;
+}
+a:hover {
+  color: #ff4c4c;
+}
+
+/* Reset de body */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Títulos */
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* Botones estilo Netflix */
+button {
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--netflix-red);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #b20710;
+}
+
+/* Responsive */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--netflix-dark);
+    background-color: white;
+  }
+  a:hover {
+    color: #ff4c4c;
+  }
+  button {
+    background-color: var(--netflix-red);
+  }
+}
