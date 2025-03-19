@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilo Moderno */
+:root {
+  --blue: #1e3a8a; /* Azul */
+  --light-blue: #3b82f6; /* Celeste */
+  --white: #ffffff; /* Blanco */
+  --black: #000000; /* Negro */
+  --gray: #f3f4f6; /* Gris claro */
+
+  font-family: "Arial", sans-serif;
+  color: var(--white);
+  background-color: var(--black);
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enlaces */
+a {
+  font-weight: 500;
+  color: var(--light-blue);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: var(--blue);
+}
+
+/* Reset de body */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--black);
+}
+
+/* Títulos */
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--white);
+}
+
+/* Botones estilo moderno */
+button {
+  border-radius: 12px;
+  padding: 0.8em 1.5em;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--light-blue);
+  color: var(--white);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+button:hover {
+  background-color: var(--blue);
+  transform: translateY(-2px);
+}
+button:active {
+  transform: translateY(2px);
+}
+
+/* Input y campos de texto */
+input, textarea {
+  border-radius: 8px;
+  padding: 0.8em;
+  border: 1px solid var(--gray);
+  background-color: var(--white);
+  color: var(--black);
+  transition: border-color 0.3s ease;
+}
+input:focus, textarea:focus {
+  border-color: var(--light-blue);
+  outline: none;
+}
+
+/* Contenedores */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Sección de tarjetas o productos */
+.card {
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px 0;
+  transition: box-shadow 0.3s ease;
+}
+.card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--black);
+    background-color: var(--white);
+  }
+  a:hover {
+    color: var(--blue);
+  }
+  button {
+    background-color: var(--blue);
+  }
+  body {
+    background-color: var(--white);
+  }
+}
