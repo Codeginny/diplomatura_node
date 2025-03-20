@@ -4,12 +4,17 @@
   margin: 0;
   padding: 0;
   text-align: center;
-  background-color: var(--black);
+  background-color: white; /* Cambié el fondo de #root a blanco */
+}
+
+/* Agregar espacio de margen superior en el contenedor de productos */
+.product-list-container {
+  margin-top: 4rem; /* Cambié mt-48 a un valor más grande */
 }
 
 /* Header */
 .Header {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.8); /* Mantenemos el fondo oscuro del header */
   padding: 1rem;
   display: flex;
   justify-content: space-between;
@@ -86,7 +91,7 @@
   border-radius: 12px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color: var(--white);
+  background-color: var(--white); /* Mantengo el fondo blanco de las tarjetas */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 

@@ -6,13 +6,14 @@ const ThemeContext = createContext();
 // El proveedor del tema
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("theme") || "light"; // Obtén el tema desde localStorage o usa 'light' por defecto
+    return localStorage.getItem("theme") || "light";
   });
 
   useEffect(() => {
-    // Guarda el tema seleccionado en localStorage y cambia la clase de la raíz
+    // Elimina cualquier tema previo y agrega el nuevo sin afectar otras clases
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(theme);
     localStorage.setItem("theme", theme);
-    document.documentElement.className = theme; // Cambia la clase del body o html
   }, [theme]);
 
   // Cambia entre el modo claro y oscuro

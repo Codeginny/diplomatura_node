@@ -35,7 +35,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--black);
+  background-color: var(--black); /* Fondo negro por defecto (modo oscuro) */
 }
 
 /* Títulos */
@@ -103,7 +103,7 @@ input:focus, textarea:focus {
 @media (prefers-color-scheme: light) {
   :root {
     color: var(--black);
-    background-color: var(--white);
+    background-color: var(--white); /* Fondo blanco en modo claro */
   }
   a:hover {
     color: var(--blue);
@@ -112,6 +112,6 @@ input:focus, textarea:focus {
     background-color: var(--blue);
   }
   body {
-    background-color: var(--white);
+    background-color: var(--white); /* Fondo blanco en modo claro */
   }
 }

@@ -11,7 +11,9 @@ const CartModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end">
-      <div className={`w-96 h-full p-4 ${theme === "dark" ? "bg-blue-900 text-white" : "bg-white text-black"}`}>
+      <div
+        className={`w-96 h-full p-4 ${theme === "dark" ? "bg-blue-900 text-white" : "bg-white text-black"} overflow-y-auto`}  // Se agrega 'overflow-y-auto' para permitir el scroll
+      >
         <div className="flex justify-between items-center border-b pb-2 mb-4">
           <h2 className="text-xl font-semibold">Tu Carrito</h2>
           <button onClick={onClose}>
@@ -38,7 +40,7 @@ const CartModal = ({ isOpen, onClose }) => {
                     </button>
                   </div>
                 </div>
-                <button onClick={() => removeFromCart(product.id)} className="text-red-600">
+                <button onClick={() => removeFromCart(product.id)} className="text-white">
                   <Trash size={20} />
                 </button>
               </div>

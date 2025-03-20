@@ -25,11 +25,45 @@ export const CartProvider = ({ children }) => {
     });
   };
 
+  // Función para eliminar producto del carrito
+  const removeFromCart = (id) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
+  // Función para aumentar la cantidad de un producto
+  const increaseQuantity = (id) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  // Función para disminuir la cantidad de un producto
+  const decreaseQuantity = (id) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
+  };
+
   // Calcular el total del carrito
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, total }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        increaseQuantity,
+        decreaseQuantity,
+        total,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

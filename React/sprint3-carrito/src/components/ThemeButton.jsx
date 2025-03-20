@@ -1,15 +1,18 @@
-import { useTheme } from "../context/ThemeContext";
-import { Sun, Moon } from "@phosphor-icons/react";
+// src/components/ThemeButton.jsx
+import React from "react";
+import { Sun, Moon } from "@phosphor-icons/react"; // Importamos los íconos de sol y luna
+import { useTheme } from "../hooks/useTheme"; // Usamos el hook de tema
 
 const ThemeButton = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme(); // Usamos el hook para obtener y cambiar el tema
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="fixed bottom-4 right-4 p-2 bg-gray-200 dark:bg-gray-800 rounded-full shadow-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition"
-    >
-      {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
+    <button onClick={toggleTheme} className="p-2 rounded-full">
+      {theme === "dark" ? (
+        <Sun size={24} className="text-yellow-500" /> // Icono de sol en el modo oscuro
+      ) : (
+        <Moon size={24} className="text-blue-500" /> // Icono de luna en el modo claro
+      )}
     </button>
   );
 };
