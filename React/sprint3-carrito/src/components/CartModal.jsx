@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
-import { useTheme } from "../hooks/useTheme"; // Importamos el hook correctamente
+import { useTheme } from "../hooks/useTheme";
 import { X, Trash, Plus, Minus } from "@phosphor-icons/react";
 
 const CartModal = ({ isOpen, onClose }) => {
-  const { cart, increaseQuantity, decreaseQuantity, removeFromCart, total } = useContext(CartContext);
-  const { theme } = useTheme(); // Obtén el tema usando el hook
+  const { cart, increaseQuantity, decreaseQuantity, removeFromCart, clearCart, total } = useContext(CartContext);
+  const { theme } = useTheme();
 
   if (!isOpen) return null;
 
@@ -51,6 +51,10 @@ const CartModal = ({ isOpen, onClose }) => {
             </div>
             <button className="w-full bg-blue-600 text-white py-2 mt-4 rounded hover:bg-blue-700 transition">
               Finalizar Compra
+            </button>
+
+            <button onClick={clearCart} className="w-full bg-blue-600 text-white py-2 mt-4 rounded hover:bg-blue-700 transition">
+               Vaciar carrito
             </button>
           </div>
         )}

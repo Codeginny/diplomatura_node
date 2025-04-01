@@ -1,12 +1,12 @@
 // src/components/Cart.jsx
 import React from "react";
-import { useCart } from "../hooks/useCart"; // Usamos el hook para manejar el carrito
-import { Trash, Plus, Minus, Sun, Moon } from "@phosphor-icons/react"; // Importamos los íconos, incluyendo sol y luna
-import { useTheme } from "../hooks/useTheme"; // Usamos el hook de tema para cambiar entre modo claro y oscuro
+import { useCart } from "../hooks/useCart"; // hook para manejar el carrito
+import { Trash, Plus, Minus, Sun, Moon } from "@phosphor-icons/react";
+import { useTheme } from "../hooks/useTheme"; // hook de tema para cambiar entre modo claro y oscuro
 
 const Cart = () => {
   const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, total } = useCart();
-  const { theme, toggleTheme } = useTheme(); // Obtenemos el tema actual y la función para cambiarlo
+  const { theme, toggleTheme } = useTheme(); // tema actual y la función para cambiarlo
 
   return (
     <div className={`fixed top-16 right-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg w-80 max-h-[400px] overflow-y-auto transition-all`}>

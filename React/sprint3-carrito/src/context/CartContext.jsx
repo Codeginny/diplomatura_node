@@ -30,6 +30,15 @@ export const CartProvider = ({ children }) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
+  // Funcion para vaciar el carrito
+  const clearCart = () => {
+    setCart([]);
+  };
+
+
+
+
+
   // Función para aumentar la cantidad de un producto
   const increaseQuantity = (id) => {
     setCart((prevCart) =>
@@ -61,6 +70,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         increaseQuantity,
         decreaseQuantity,
+        clearCart,
         total,
       }}
     >
