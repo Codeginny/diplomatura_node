@@ -1,13 +1,14 @@
 // src/main.jsx
-import React from 'react';
-import ReactDOM from 'react-dom/client';  // Usamos 'react-dom/client' en React 18
-import App from './App';  // Importa el componente principal App.jsx
-import './styles/index.css';  // Asegúrate de que el archivo de estilos esté correctamente importado
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );

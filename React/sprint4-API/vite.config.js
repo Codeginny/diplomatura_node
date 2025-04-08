@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react-swc'; // Usando react-swc para la config
 
 export default defineConfig({
   root: './', // Establece la raíz del proyecto
-  plugins: [react()], // Usamos el plugin de react-swc
+  plugins: [react()], // plugin de react-swc
   css: {
-    postcss: './postcss.config.js', // Asegúrate de que esta ruta esté correcta
+    postcss: './postcss.config.js', 
   },
 });

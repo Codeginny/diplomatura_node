@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import { FavoritesContext } from '../context/FavoritesContext'; // Asegúrate de que esto sea correcto
+import { FavoritesContext } from '../context/FavoritesContext';
 
 const Favorites = () => {
   const { favorites } = useContext(FavoritesContext);
 
-  // Verificar si favorites es un array antes de hacer map
   const favoriteList = Array.isArray(favorites) ? favorites : [];
 
   return (
