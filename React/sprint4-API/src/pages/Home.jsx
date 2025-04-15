@@ -5,6 +5,8 @@ import CharacterCard from "../components/CharacterCard";
 import FavoritesModal from "../components/FavoritesModal";
 import ErrorModal from "../components/ErrorModal";
 import { FavoritesContext } from "../context/FavoritesContext";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const personajesPrincipales = [
   "Rick Sánchez", "Morty Smith", "Jerry Smith", "Beth Smith", "Summer Smith"
@@ -45,14 +47,17 @@ const Home = () => {
       .get(`https://rickandmortyapi.com/api/character/?name=${query}`)
       .then((res) => {
         setCharacters(res.data.results);
-        setErrorMessage(""); // Limpia error si hay resultados
+        setErrorMessage("");
+        toast.success("Personajes cargados con éxito");
       })
       .catch((error) => {
         setCharacters([]);
         if (error.response && error.response.status === 404) {
           setErrorMessage("Pero no te rindas, la lista del inicio tiene joyitas.");
+          toast.error("No se encontraron personajes con ese nombre.");
         } else {
           setErrorMessage("Ocurrió un error al buscar los personajes. Intente más tarde.");
+          toast.error("Error al buscar personajes. Intenta más tarde.");
         }
       })
       .finally(() => {
@@ -67,37 +72,38 @@ const Home = () => {
         onGoHome={() => {
           setQuery("");
           setCharacters([]);
-          setErrorMessage(""); // Resetea mensaje de error si vuelven al inicio
+          setErrorMessage("");
         }}
         onToggleFavorites={() => setShowFavorites(true)}
       />
 
+      {/* Toast para mostrar notificaciones */}
+      <ToastContainer position="top-right" autoClose={3000} theme="dark" />
+
       {/* Banner de bienvenida */}
       {query === "" && (
-        <img
-          src="/assets/img/header.png"
-          alt="Banner Rick and Morty"
-          className="w-screen h-auto object-cover block"
-        />
-      )}
+        <>
+          <img
+            src="/assets/img/header.png"
+            alt="Banner Rick and Morty"
+            className="w-screen h-auto object-cover block"
+          />
+          <div className="mt-10 space-y-4 pl-6">
+            <h2 className="text-green-400 text-xl font-bold">Personajes principales:</h2>
+            <ul className="list-disc list-inside text-green-300">
+              {personajesPrincipales.map((name) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ul>
 
-      {/* Lista de personajes predefinidos */}
-      {query === "" && (
-        <div className="mt-10 space-y-4 pl-6">
-          <h2 className="text-green-400 text-xl font-bold">Personajes principales:</h2>
-          <ul className="list-disc list-inside text-green-300">
-            {personajesPrincipales.map((name) => (
-              <li key={name}>{name}</li>
-            ))}
-          </ul>
-
-          <h2 className="text-green-400 text-xl font-bold mt-10">Personajes recurrentes:</h2>
-          <ul className="list-disc list-inside text-green-300">
-            {personajesRecurrentes.map((name) => (
-              <li key={name}>{name}</li>
-            ))}
-          </ul>
-        </div>
+            <h2 className="text-green-400 text-xl font-bold mt-10">Personajes recurrentes:</h2>
+            <ul className="list-disc list-inside text-green-300">
+              {personajesRecurrentes.map((name) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ul>
+          </div>
+        </>
       )}
 
       {/* Resultado de la búsqueda */}
