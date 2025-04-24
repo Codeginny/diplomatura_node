@@ -23,11 +23,3 @@
 - **Context API**: Manejo de estado global en React.
 
 ---
-
-## 🛠️ Instalación del proyecto
-
-### Clonar el repositorio
-```bash
-git clone https://github.com/tu-usuario/mirepo.git
-cd mirepo
-
