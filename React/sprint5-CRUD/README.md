@@ -1,25 +1,73 @@
-# 🌍 Proyecto Sprint 5 - Gestor de Países (Frontend + Backend)
+# 🦸‍♂️ Proyecto Sprint 5 - Gestor de Superhéroes (Frontend + Backend)
 
-## 📦 Tecnologías utilizadas
+## 📌 Descripción
 
-### Backend (Node.js + Express + MongoDB)
-- **Node.js**: Entorno de ejecución de JavaScript.
-- **Express**: Framework de Node.js para construir aplicaciones web y APIs.
-- **Mongoose**: ODM (Object Data Modeling) para MongoDB y Node.js.
-- **EJS**: Motor de plantillas para la renderización en el backend.
-- **dotenv**: Para la gestión de variables de entorno.
-- **Morgan**: Middleware de logging HTTP.
-- **body-parser**: Middleware para analizar cuerpos de solicitudes.
-- **cors**: Middleware para habilitar CORS (Cross-Origin Resource Sharing).
-
-### Frontend (React + Vite)
-- **React**: Biblioteca de JavaScript para la construcción de interfaces de usuario.
-- **Vite**: Herramienta de desarrollo de aplicaciones frontend rápida.
-- **React Router DOM**: Librería para manejar las rutas en la aplicación React.
-- **Axios**: Cliente HTTP para hacer solicitudes desde React.
-- **TailwindCSS**: Framework CSS para crear interfaces modernas y responsivas.
-- **SweetAlert2**: Librería para mostrar alertas de confirmación con diseño bonito.
-- **react-toastify**: Librería para mostrar notificaciones de forma sencilla.
-- **Context API**: Manejo de estado global en React.
+Aplicación fullstack que permite gestionar una base de datos de superhéroes. Se pueden **crear**, **leer**, **editar** y **eliminar** héroes mediante una interfaz moderna y fácil de usar.  
+Incluye alertas de confirmación, notificaciones visuales, navegación entre páginas y validaciones de formularios.
 
 ---
+
+## 🧰 Tecnologías utilizadas
+
+### 🔙 Backend (Node.js + Express + MongoDB)
+
+- **Node.js**: Entorno de ejecución de JavaScript.
+- **Express**: Framework para crear APIs RESTful.
+- **MongoDB**: Base de datos NoSQL.
+- **Mongoose**: Modelado de datos para MongoDB.
+- **EJS** *(en versiones anteriores)*: Motor de plantillas para SSR.
+- **dotenv**: Variables de entorno.
+- **Morgan**: Logging de peticiones.
+- **CORS**: Habilitación de solicitudes cross-origin.
+
+### 🔮 Frontend (React + Vite)
+
+- **React**: Librería para crear interfaces de usuario.
+- **Vite**: Empaquetador rápido para desarrollo de proyectos frontend.
+- **TailwindCSS**: Framework de estilos utilitario.
+- **React Router DOM**: Ruteo con páginas dinámicas.
+- **Axios**: Cliente HTTP para hacer peticiones a la API.
+- **SweetAlert2**: Alertas modernas para confirmaciones.
+- **react-toastify**: Notificaciones visuales.
+- **Context API**: Manejo de estado global.
+
+---
+
+## 🔄 Funcionalidades implementadas
+
+- 🧾 **Listado de superhéroes**
+- 🔍 **Vista detallada de cada superhéroe**
+- ➕ **Creación de nuevos héroes**
+- ✏️ **Edición de héroes existentes**
+- 🗑️ **Eliminación con confirmación (SweetAlert2)**
+- ✅ **Formularios controlados con validación**
+- 🔔 **Notificaciones visuales (react-toastify)**
+- 🔗 **Navegación programática entre vistas**
+- ♻️ **Consumo de API REST desde MockAPI o backend propio**
+- 📦 **Organización modular por componentes, hooks y contextos**
+
+---
+
+## 🧭 Rutas definidas
+
+| Ruta               | Descripción                                      |
+|--------------------|--------------------------------------------------|
+| `/`                | Página de bienvenida                             |
+| `/heroes`          | Listado general de superhéroes                   |
+| `/heroes/:id`      | Detalle de un superhéroe                         |
+| `/heroes/create`   | Formulario para crear nuevo superhéroe           |
+| `/heroes/:id/edit` | Formulario para editar un superhéroe existente   |
+| `*`                | Página 404                                       |
+
+---
+## 📦 Instalar dependencias
+npm install
+
+## ▶️ Ejecutar frontend
+npm run dev
+
+## 🌐 Demo
+💡 Link Netlify:
+
+## 🧑‍💻 Autor
+Nombre: Virginia Alejandra Ponce
