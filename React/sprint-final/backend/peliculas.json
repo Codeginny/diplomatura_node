@@ -1,0 +1,163 @@
+[
+  {
+    "title": "Mad Max: Fury Road",
+    "description": "En un futuro post-apocalíptico, Max se une a un grupo de rebeldes para escapar de un tirano.",
+    "ageRating": "+18",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/5GK0czNNhDBcV3vUQHgjqXhPsu4.jpg"
+  },
+  {
+    "title": "The Dark Knight",
+    "description": "Batman se enfrenta al caos provocado por el Joker.",
+    "ageRating": "+18",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/9zvNcQjdyi7Jz7qGRGvI2QlR5hf.jpg"
+  },
+  {
+    "title": "Avengers: Endgame",
+    "description": "Los Vengadores intentan revertir el chasquido de Thanos.",
+    "ageRating": "+18",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg"
+  },
+  {
+    "title": "Inception",
+    "description": "Un ladrón roba secretos entrando en los sueños.",
+    "ageRating": "+18",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg"
+  },
+  {
+    "title": "Guardians of the Galaxy",
+    "description": "Un grupo de marginados galácticos se une para salvar el universo.",
+    "ageRating": "ATP",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/4B4mT7gxVfXq3hDk0I8t4HjJEDl.jpg"
+  },
+  {
+    "title": "Spider-Man: Homecoming",
+    "description": "Peter Parker lidia con los desafíos de ser un joven superhéroe.",
+    "ageRating": "ATP",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/r1B79rIXV7DTx0ZzvB66lSUKm1c.jpg"
+  },
+  {
+    "title": "Iron Man",
+    "description": "Un millonario genio crea una armadura para salvar el mundo.",
+    "ageRating": "ATP",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/8h3AN4u3hYW0Yztm7O8YPBrRweW.jpg"
+  },
+  {
+    "title": "The Avengers",
+    "description": "Los héroes más poderosos de la Tierra se unen para salvar al mundo de una invasión alienígena.",
+    "ageRating": "ATP",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/1xHk0rc9Oq8Fvb7a5oWxTxVh0E8.jpg"
+  },
+  {
+    "title": "Jurassic Park",
+    "description": "Un parque temático con dinosaurios clonados se convierte en una pesadilla.",
+    "ageRating": "ATP",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/xdM2FobT2vVksLHXhTSH3aDgr5b.jpg"
+  },
+  {
+    "title": "The Matrix",
+    "description": "Un hacker descubre la verdadera naturaleza de su realidad.",
+    "ageRating": "+18",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg"
+  },
+  {
+    "title": "Star Wars: Episode IV",
+    "description": "Un joven granjero se une a una rebelión contra un imperio galáctico tiránico.",
+    "ageRating": "ATP",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/jn9e9n3fjhj8gF56WrMt4zGQ7V5.jpg"
+  },
+  {
+    "title": "Avatar",
+    "description": "Un ex-marine se infiltra en un planeta alienígena para ayudar a los humanos a explotar sus recursos.",
+    "ageRating": "ATP",
+    "category": "Acción y Aventura",
+    "image": "https://image.tmdb.org/t/p/w500/cV3KDN51qkB0HGmn9fIVa5yVtFq.jpg"
+  },
+  {
+    "title": "The Hangover",
+    "description": "Tres amigos intentan reconstruir su noche de fiesta en Las Vegas.",
+    "ageRating": "+18",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/yznvIzrgqC5ZtZC5z45iXr9OZ87.jpg"
+  },
+  {
+    "title": "Superbad",
+    "description": "Dos amigos pasan el último verano antes de la universidad tratando de encajar en su grupo.",
+    "ageRating": "+18",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/4u9LOQxG1s8T0wcp13K7Ym29hfp.jpg"
+  },
+  {
+    "title": "Anchorman",
+    "description": "Un locutor de noticias en los años 70 compite por el puesto de liderazgo en la redacción.",
+    "ageRating": "+18",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/3BlA2eFmLgqF1P4rsckBQL7lWmG.jpg"
+  },
+  {
+    "title": "Step Brothers",
+    "description": "Dos adultos inmaduros se ven obligados a vivir juntos después de que sus padres se casan.",
+    "ageRating": "+18",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/32uNo6yqsLQj5wO6k72uB4l1X8B.jpg"
+  },
+  {
+    "title": "The Grand Budapest Hotel",
+    "description": "Un hotel de lujo se ve envuelto en un robo de arte en la Europa de entreguerras.",
+    "ageRating": "ATP",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/3pVYZpRvoUvndRZr6u5dN3N5Kdp.jpg"
+  },
+  {
+    "title": "Jumanji: Welcome to the Jungle",
+    "description": "Cuatro adolescentes quedan atrapados en un videojuego y deben completar misiones para escapar.",
+    "ageRating": "ATP",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/33itdlfbx0mkm4WybKKU8dkdqHj.jpg"
+  },
+  {
+    "title": "The Intern",
+    "description": "Un hombre mayor se convierte en pasante de una joven CEO en una tienda en línea.",
+    "ageRating": "ATP",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/aPzJhxdpgh5uE1JYOBuWxyc2Gn0.jpg"
+  },
+  {
+    "title": "The Proposal",
+    "description": "Una ejecutiva de alto nivel finge estar casada con su asistente para evitar ser deportada.",
+    "ageRating": "ATP",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/iOHKH3lQxkCfiYXK2p6aE6o5Nba.jpg"
+  },
+  {
+    "title": "Crazy, Stupid, Love",
+    "description": "Un hombre en proceso de divorcio se encuentra con un hombre que lo ayuda a mejorar su vida amorosa.",
+    "ageRating": "ATP",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/5lgWv7ykX0sf8lITaDDjiHr1j1n.jpg"
+  },
+  {
+    "title": "The Mask",
+    "description": "Un hombre normal se convierte en un superhéroe con poderes extraordinarios gracias a una máscara mágica.",
+    "ageRating": "ATP",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/7P0UMESrgYKrYW5mGcLgAew4w8w.jpg"
+  },
+  {
+    "title": "Shrek",
+    "description": "Un ogro se embarca en una aventura para rescatar a una princesa.",
+    "ageRating": "ATP",
+    "category": "Comedia",
+    "image": "https://image.tmdb.org/t/p/w500/tuFaWiqX0TXoWu7DGNcmX3UW7sT.jpg"
+  }
+]
