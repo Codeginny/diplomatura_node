@@ -1,13 +1,14 @@
+// src/App.jsx
 import './styles/styles.css';
 import './styles/tailwind.css';
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // React Router v6
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import MovieCatalog from './components/MovieCatalog';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import MoviePage from './pages/MoviePage';
-import AdminPage from './pages/AdminPage';
+import AdminPage from './pages/AdminPage';  // Asegúrate de que esta importación sea correcta
 import ProfileSelector from './components/ProfileSelector';
 import ProfileManagement from './components/ProfileManagement';
 import CreateProfile from './components/CreateProfile';
@@ -16,26 +17,28 @@ import Home from './pages/Home';
 import Inicio from './pages/Inicio';
 import { AuthProvider } from './auth/authContext';
 import Register from './pages/Register';
-import axios from 'axios';
+import { api } from './api/axios';  // Corrige la importación de api
 
 const App = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false); // Modo oscuro
-  const [movies, setMovies] = useState([]); // Películas
-  const [filteredMovies, setFilteredMovies] = useState([]); // Películas filtradas
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado de autenticación
-  const [userProfile, setUserProfile] = useState(null); // Perfil del usuario
+  const [isDarkMode, setIsDarkMode] = useState(false); 
+  const [movies, setMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); 
+  const [userProfile, setUserProfile] = useState(null); 
 
-  // Cargar películas desde el backend al cargar el componente
+  // Cargar películas una vez que el usuario esté autenticado
   useEffect(() => {
-    axios.get('http://localhost:5000/api/movies') // URL de tu API de backend
-      .then(response => {
-        setMovies(response.data);
-        setFilteredMovies(response.data); // Inicialmente todas las películas
-      })
-      .catch(error => {
-        console.error('Error al cargar las películas:', error);
-      });
-  }, []);
+    if (isAuthenticated) {
+      api.get('http://localhost:5000/api/movies') // URL de tu API de backend
+        .then(response => {
+          setMovies(response.data);
+          setFilteredMovies(response.data); 
+        })
+        .catch(error => {
+          console.error('Error al cargar las películas:', error);
+        });
+    }
+  }, [isAuthenticated]); 
 
   // Función de login
   const handleLogin = (profile) => {
@@ -68,7 +71,7 @@ const App = () => {
               setFilteredMovies={setFilteredMovies}
               allMovies={movies}
               onLogout={handleLogout}
-              toggleTheme={() => setIsDarkMode(prev => !prev)} // Alternar tema
+              toggleTheme={() => setIsDarkMode(prev => !prev)} 
               isDarkMode={isDarkMode}
             />
           )}

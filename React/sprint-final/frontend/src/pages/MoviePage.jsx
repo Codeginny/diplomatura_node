@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "../api/axios";
+import { api } from "../api/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const MoviePage = () => {
     const fetchMovies = async () => {
       try {
         // Intentamos obtener las películas
-        const res = await axios.get("/movies");
+        const res = await api.get("/movies");
         setMovies(res.data);
       } catch (error) {
         // Mostramos un mensaje detallado en caso de error

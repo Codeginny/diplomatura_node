@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import axios from '../api/axios';
+import { api } from '../api/axios';
 import Swal from 'sweetalert2';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -32,7 +32,7 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     try {
-      await axios.post('/auth/register', data);
+      await api.post('/auth/register', data);
       Swal.fire({
         icon: 'success',
         title: 'Cuenta creada con éxito',

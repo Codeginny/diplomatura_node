@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../auth/authContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import axios from '../api/axios';
+import { api } from '../api/axios';
 import { FaStar } from 'react-icons/fa';
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await axios.get('/movies');
+        const res = await api.get('/movies');
         setMovies(res.data);
       } catch (err) {
         console.error('Error al cargar películas:', err);

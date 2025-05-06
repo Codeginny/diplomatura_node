@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import useAuth from "../auth/useAuth";
 import { toast } from "react-toastify";
-import axios from "../api/axios";
+import { api } from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 const ProfileManagement = () => {
@@ -13,7 +13,7 @@ const ProfileManagement = () => {
 
   const fetchProfiles = async () => {
     try {
-      const response = await axios.get(`/profiles`);
+      const response = await api.get(`/profiles`);
       setProfiles(response.data);
     } catch (error) {
       toast.error("Error al cargar perfiles");
@@ -25,7 +25,7 @@ const ProfileManagement = () => {
 
   const deleteProfile = async (profileId) => {
     try {
-      await axios.delete(`/profiles/${profileId}`);
+      await api.delete(`/profiles/${profileId}`);
       setProfiles(profiles.filter((profile) => profile._id !== profileId));
       toast.success("Perfil eliminado");
     } catch (error) {

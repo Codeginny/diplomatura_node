@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "../api/axios";
+import { instance } from '../api/axios'; 
 import { toast } from "react-toastify";
 import MovieCard from "./MovieCard";
 import useAuth from "../auth/useAuth";
@@ -12,12 +12,11 @@ export default function MovieCatalog() {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get("/movies");
+      const response = await instance.get("/movies"); // ✅ aquí se usa `instance`
       setMovies(response.data);
     } catch (error) {
-      // Si el error tiene detalles específicos, lo mostramos
       const errorMessage = error.response?.data?.message || "Error al cargar películas";
-      toast.error(errorMessage);  // Mostrar el error con Toastify
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -31,7 +30,7 @@ export default function MovieCatalog() {
     if (user) {
       fetchMovies();
     }
-  }, [user]); // Solo se ejecuta cuando el usuario cambia
+  }, [user]);
 
   return (
     <div className={`min-h-screen ${darkMode ? "bg-black text-white" : "bg-white text-black"} transition-all`}>

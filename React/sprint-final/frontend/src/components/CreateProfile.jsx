@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import axios from "../api/axios";
+import { api } from "../api/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateProfile() {
@@ -20,7 +20,7 @@ export default function CreateProfile() {
     setLoading(true);
     try {
       const profileData = { name, avatar };
-      await axios.post("/profiles", profileData);
+      await api.post("/profiles", profileData);
       toast.success("Perfil creado exitosamente");
       navigate("/profiles"); // Redirigir a la página de gestión de perfiles
     } catch (error) {

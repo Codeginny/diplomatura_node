@@ -1,5 +1,6 @@
+// src/pages/AdminPage.jsx
 import { useState, useEffect } from "react";
-import axios from "../api/axios";
+import { api } from "../api/axios";  // Asegúrate de que la importación esté correcta
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -11,14 +12,12 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        // Intentamos obtener las películas
-        const res = await axios.get("/movies");
+        const res = await api.get("/movies"); // Asegúrate de que tu endpoint esté correcto
         setMovies(res.data);
       } catch (error) {
-        // Mostramos un mensaje detallado en caso de error
         toast.error(error?.response?.data?.message || "Error al cargar películas");
       } finally {
-        setLoading(false); // Siempre se ejecuta, incluso si hay un error
+        setLoading(false);
       }
     };
 
@@ -31,8 +30,7 @@ const AdminPage = () => {
 
   const handleDeleteMovie = async (movieId) => {
     try {
-      // Intentamos eliminar la película
-      const res = await axios.delete(`/movies/${movieId}`);
+      const res = await api.delete(`/movies/${movieId}`);
       if (res.status === 200) {
         setMovies((prevMovies) => prevMovies.filter((movie) => movie._id !== movieId));
         toast.success("Película eliminada correctamente");
@@ -40,7 +38,6 @@ const AdminPage = () => {
         toast.error("No se pudo eliminar la película");
       }
     } catch (error) {
-      // Mostramos un mensaje detallado si ocurre un error
       toast.error(error?.response?.data?.message || "Error al eliminar película");
     }
   };

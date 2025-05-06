@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../auth/useAuth";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import axios from "../api/axios";
+import { api } from "../api/axios"; 
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -13,7 +13,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [authError, setAuthError] = useState(null);  // Estado para almacenar el error de autenticación
 
   const schema = Yup.object({
     email: Yup.string().email("Email inválido").required("Email es obligatorio"),
@@ -27,19 +27,21 @@ const LoginPage = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = async (data) => {
-    setPasswordError(false);
+    setAuthError(null);  // Resetear error de autenticación al intentar iniciar sesión
 
     try {
-      const response = await axios.post("/auth/login", data);
+      const response = await api.post("/auth/login", data);
       login(response.data.token);
       toast.success("Inicio de sesión exitoso");
       navigate("/home");
     } catch (error) {
+      // Verificar si el error es de autenticación
       const errorMessage = error?.response?.data?.message || "Error al iniciar sesión";
-
-      // Mostrar mensaje específico si la contraseña es incorrecta
-      if (errorMessage.toLowerCase().includes("contraseña incorrecta")) {
-        setPasswordError(true);
+      
+      if (errorMessage.toLowerCase().includes("correo o contraseña incorrectos")) {
+        setAuthError("Correo o contraseña incorrectos");  // Actualizar el estado con un mensaje claro
+      } else {
+        setAuthError("Hubo un error al intentar iniciar sesión. Intenta nuevamente.");
       }
 
       toast.error(errorMessage);
@@ -79,9 +81,13 @@ const LoginPage = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
             {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>}
-            {passwordError && (
-              <p className="text-red-400 text-sm mt-1">Contraseña incorrecta</p>
-            )}
+            {authError && (
+            <>
+              {/* Mostrar el error de autenticación si existe */}
+              <p className="text-red-400 text-sm mt-1">{authError}</p>
+            </>
+          )}
+
           </div>
 
           <button

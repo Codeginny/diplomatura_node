@@ -1,51 +1,54 @@
-// /src/api/axios.js
+// src/api/axios.js
 import axios from 'axios';
 
-// Accede a la variable de entorno usando import.meta.env (para Vite con ESModules)
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
-// Verifica si la URL base se está leyendo correctamente (opcional para depuración)
-console.log(apiBaseUrl);
+console.log('[Axios] API base URL:', apiBaseUrl);
 
-const api = axios.create({
-  baseURL: apiBaseUrl, //  URL predeterminada
+// Instancia sin token (para login, registro, etc.)
+const instance = axios.create({
+  baseURL: apiBaseUrl,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Interceptor para añadir el token JWT en el header de cada solicitud
+// Instancia con token automático para rutas protegidas
+const api = axios.create({
+  baseURL: apiBaseUrl,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Interceptor para agregar token JWT
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // token del localStorage
+    const token = localStorage.getItem('token');
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`; 
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Interceptor para manejar respuestas y errores
+// Interceptor para manejar errores (token expirado)
 api.interceptors.response.use(
-  (response) => response, // Si la respuesta es exitosa, la retornamos directamente
-  async (error) => {
+  (response) => response,
+  (error) => {
     const originalRequest = error.config;
 
-    // Manejo de error de token expirado o no autorizado
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      window.location.href = '/login'; // Redirigir a login si el token expira
-      return Promise.reject(error);
+      window.location.href = '/login';
     }
 
     return Promise.reject(error);
   }
 );
 
-export default api;
-
-
-
+// Exporta ambas instancias
+export { api, instance };

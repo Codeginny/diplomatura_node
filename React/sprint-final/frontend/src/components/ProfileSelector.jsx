@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/axios";
+import { api } from "../api/axios";
 import useAuth from "../auth/useAuth";
 import { toast } from "react-toastify";
 
@@ -17,7 +17,7 @@ export default function ProfileSelector() {
     // Definimos fetchProfiles dentro de useEffect
     const fetchProfiles = async () => {
       try {
-        const res = await axios.get(`/profiles/user/${user._id}`);
+        const res = await api.get(`/profiles/user/${user._id}`);
         setProfiles(res.data);
       } catch (error) {
         console.error("Error al cargar perfiles:", error);

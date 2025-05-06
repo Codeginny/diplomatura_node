@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import useAuth from "../auth/useAuth";
-import axios from "../api/axios";
+import { api } from "../api/axios";
+
 import { toast } from "react-toastify";
 import MovieCard from "./MovieCard";
 
@@ -14,7 +15,7 @@ const Watchlist = () => {
   const fetchWatchlist = useCallback(async () => {
     try {
       if (user) {
-        const response = await axios.get(`/watchlist/${user._id}`);
+        const response = await api.get(`/watchlist/${user._id}`);
         setWatchlist(response.data);
       } else {
         toast.error("Usuario no encontrado");

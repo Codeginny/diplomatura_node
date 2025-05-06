@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import useAuth from "../auth/useAuth";
 import { toast } from "react-toastify";
-import axios from "../api/axios";
+import { api } from "../api/axios";
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -23,7 +23,7 @@ const ProfilePage = () => {
     if (!profileId) return; // No hacer la solicitud si no hay profileId
 
     try {
-      const response = await axios.get(`/profiles/${profileId}`);
+      const response = await api.get(`/profiles/${profileId}`);
       setProfile(response.data);
       setWatchlist(response.data.watchlist);
     } catch (error) {

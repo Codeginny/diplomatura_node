@@ -15,7 +15,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+// Configuración de CORS
+app.use(cors({
+  origin: ['http://localhost:5174', '*'],  // La URL de tu frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  credentials: true,
+  maxAge: 86400
+}));
+
+
+// Middleware para manejar JSON
 app.use(express.json());
 
 // Rutas
