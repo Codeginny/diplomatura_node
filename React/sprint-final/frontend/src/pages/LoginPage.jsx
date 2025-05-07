@@ -31,7 +31,7 @@ const LoginPage = () => {
 
     try {
       const response = await api.post("/auth/login", data);
-      login(response.data.token);
+      login(response.data.user, response.data.token);
       toast.success("Inicio de sesión exitoso");
       navigate("/home");
     } catch (error) {

@@ -5,7 +5,7 @@ import MovieCard from "./MovieCard";
 import useAuth from "../auth/useAuth";
 
 export default function MovieCatalog() {
-  const { user } = useAuth();
+  const { auth } = useAuth();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);

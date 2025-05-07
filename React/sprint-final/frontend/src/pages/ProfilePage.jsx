@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { api } from "../api/axios";
 
 const ProfilePage = () => {
-  const { user } = useAuth();
+  const { auth } = useAuth();
   const [profile, setProfile] = useState(null);
   const [watchlist, setWatchlist] = useState([]);
   const [loading, setLoading] = useState(true);

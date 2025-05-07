@@ -33,10 +33,11 @@ const Home = () => {
 
   return (
     <div className="bg-black text-white min-h-screen">
-      {auth.user && <Header userProfile={auth.user.profile} />}
+      {auth.user && <Header userProfile={auth.user.name} />}
+
       
       {/* Banner */}
-      <div className="relative w-full h-[60vh] bg-cover bg-center mb-8" style={{ backgroundImage: `url('/banner.jpg')` }}>
+      <div className="relative w-full h-[60vh] bg-cover bg-center mb-8" style={{ backgroundImage: `url('../assets/img/imagen_01.jpg')` }}>
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-end p-8">
           <h2 className="text-4xl font-bold">Película destacada</h2>
         </div>

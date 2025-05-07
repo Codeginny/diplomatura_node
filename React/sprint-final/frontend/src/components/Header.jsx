@@ -1,19 +1,29 @@
-// Header.jsx
-import { useContext, useState } from 'react';
-import { AuthContext } from '../auth/authContext';
-
-import logo from '../assets/img/logo.png';
+import React, { useContext, useState } from "react";
+import { Search, User } from "lucide-react";
+import { AuthContext } from "../auth/authContext";
+import UserModal from "./UserModal";
+import Footer from "./Footer"; // Importamos el Footer
+import logo from "../assets/img/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ userProfile, setFilteredMovies, allMovies }) => {
   const { auth, logout } = useContext(AuthContext);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [showCategories, setShowCategories] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   if (!auth.user) return null;
 
   const categories = [
-    'Acción', 'Comedia', 'Drama', 'Terror',
-    'Ciencia Ficción', 'Romance', 'Documentales', 'Películas para Niños'
+    "Acción",
+    "Comedia",
+    "Drama",
+    "Terror",
+    "Ciencia Ficción",
+    "Romance",
+    "Documentales",
+    "Películas para Niños",
   ];
 
   const handleSearch = (e) => {
@@ -27,12 +37,12 @@ const Header = ({ userProfile, setFilteredMovies, allMovies }) => {
   const handleFilterMovies = (category) => {
     let filtered = allMovies;
 
-    if (userProfile === 'niño') {
-      filtered = filtered.filter(movie => movie.ageRating === 'ATP');
+    if (userProfile === "niño") {
+      filtered = filtered.filter((movie) => movie.ageRating === "ATP");
     }
 
     if (category) {
-      filtered = filtered.filter(movie => movie.category === category);
+      filtered = filtered.filter((movie) => movie.category === category);
     }
 
     setFilteredMovies(filtered);
@@ -41,12 +51,12 @@ const Header = ({ userProfile, setFilteredMovies, allMovies }) => {
   const handleSearchMovies = () => {
     let filtered = allMovies;
 
-    if (userProfile === 'niño') {
-      filtered = filtered.filter(movie => movie.ageRating === 'ATP');
+    if (userProfile === "niño") {
+      filtered = filtered.filter((movie) => movie.ageRating === "ATP");
     }
 
     if (searchText) {
-      filtered = filtered.filter(movie =>
+      filtered = filtered.filter((movie) =>
         movie.title.toLowerCase().includes(searchText.toLowerCase())
       );
     }
@@ -55,55 +65,77 @@ const Header = ({ userProfile, setFilteredMovies, allMovies }) => {
   };
 
   return (
-    <header className="bg-black text-white py-4 px-6 flex items-center justify-between shadow-md w-full">
-      <div className="flex items-center gap-4">
-        <img src={logo} alt="Logo" className="h-10" />
-        <div>
-          <input
-            type="text"
-            placeholder="Buscar películas..."
-            value={searchText}
-            onChange={handleSearch}
-            className="p-2 rounded text-black"
-          />
-          <button
-            onClick={handleSearchMovies}
-            className="ml-2 px-4 py-2 bg-blue-600 rounded hover:bg-blue-700"
-          >
-            Buscar
-          </button>
+    <div>
+      <header className="bg-black text-white py-4 px-6 flex items-center justify-between shadow-md w-full">
+        {/* Logo */}
+        <div className="flex items-center gap-4">
+          <img src={logo} alt="Logo" className="h-10" />
         </div>
-      </div>
 
-      <div className="relative">
-        <button
-          onClick={handleCategoryToggle}
-          className="px-4 py-2 bg-purple-600 rounded hover:bg-purple-700"
-        >
-          Categorías
-        </button>
-        {showCategories && (
-          <ul className="absolute top-full mt-2 bg-white text-black rounded shadow-lg p-2 z-50">
-            {categories.map((cat, idx) => (
-              <li
-                key={idx}
-                onClick={() => handleFilterMovies(cat)}
-                className="cursor-pointer hover:bg-gray-200 px-2 py-1"
-              >
-                {cat}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+        {/* Search, Categories, User */}
+        <div className="flex items-center gap-6 ml-auto">
+          {/* Search */}
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Buscar..."
+              value={searchText}
+              onChange={handleSearch}
+              className="bg-gray-800 text-white rounded-full px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-red-500"
+            />
+            <Search
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+              onClick={handleSearchMovies}
+            />
+          </div>
 
-      <button
-        onClick={logout}
-        className="px-4 py-2 bg-red-600 rounded hover:bg-red-700"
-      >
-        Cerrar sesión
-      </button>
-    </header>
+          {/* Categories */}
+          <div className="relative">
+            <button
+              onClick={handleCategoryToggle}
+              className="bg-gray-800 text-white px-4 py-2 rounded-full hover:bg-red-500 transition"
+            >
+              Categorías
+            </button>
+            {showCategories && (
+              <ul className="absolute right-0 mt-2 bg-gray-900 text-white rounded-lg shadow-lg py-2 z-50">
+                {categories.map((cat, idx) => (
+                  <li
+                    key={idx}
+                    onClick={() => handleFilterMovies(cat)}
+                    className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                  >
+                    {cat}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* User Icon */}
+          <div
+            className="cursor-pointer flex items-center justify-center bg-gray-800 p-2 rounded-full hover:bg-red-500 transition"
+            onClick={() => setIsUserModalOpen(true)}
+          >
+            <User className="text-white" />
+          </div>
+        </div>
+      </header>
+
+      {/* User Modal */}
+      {isUserModalOpen && (
+        <UserModal
+          closeModal={() => setIsUserModalOpen(false)}
+          logout={() => {
+            logout();
+            navigate("/home"); // Redirigir a /home después de cerrar sesión
+          }}
+        />
+      )}
+
+      {/* Footer */}
+      <Footer />  
+    </div>
   );
 };
 

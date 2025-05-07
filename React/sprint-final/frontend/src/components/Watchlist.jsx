@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import MovieCard from "./MovieCard";
 
 const Watchlist = () => {
-  const { user } = useAuth();
+  const { auth } = useAuth();
   const [watchlist, setWatchlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
