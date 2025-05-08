@@ -1,33 +1,37 @@
 import { useState, useEffect } from "react";
 import { api } from "../api/axios";
 import { toast } from "react-toastify";
+import MovieCard from "../components/MovieCard";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../auth/authContext"; // Importamos el contexto
+import headerBanner from "../assets/img/header.jpg";
 
 const MoviePage = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { auth } = useContext(AuthContext); // Accedemos al contexto de autenticación
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        // Intentamos obtener las películas
         const res = await api.get("/movies");
         setMovies(res.data);
       } catch (error) {
-        // Mostramos un mensaje detallado en caso de error
         toast.error(error?.response?.data?.message || "Error al cargar películas");
       } finally {
-        setLoading(false); // Siempre se ejecuta, incluso si hay un error
+        setLoading(false);
       }
     };
 
     fetchMovies();
   }, []);
 
-  const handleMovieClick = (movieId) => {
-    navigate(`/movie/${movieId}`);
-  };
+  // Filtrar las películas dependiendo del perfil
+  const filteredMovies = auth.profile === "niño"
+    ? movies.filter(movie => movie.ageRating === "ATP") // Si el perfil es niño, solo películas ATP
+    : movies; // Si el perfil es adulto, todas las películas
 
   if (loading) {
     return <p>Cargando...</p>;
@@ -35,21 +39,39 @@ const MoviePage = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <h1 className="text-3xl font-bold text-red-600 p-4">Catálogo de Películas</h1>
+      {/* Banner debajo del header */}
+      <img src={headerBanner} alt="header-banner" className="w-full h-auto" />
+
+
+      {/* Sección de Películas destacadas */}
+      <h2 className="text-2xl font-bold text-red-600 p-4">Películas destacadas</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4">
-        {movies.map((movie) => (
-          <div
-            key={movie._id}
-            className="cursor-pointer bg-neutral-800 p-4 rounded-xl hover:bg-red-700 transition"
-            onClick={() => handleMovieClick(movie._id)}
-          >
-            <img
-              src={movie.poster || "/default-poster.jpg"}
-              alt={movie.title}
-              className="rounded-xl w-full h-auto"
-            />
-            <h3 className="text-center mt-2">{movie.title}</h3>
-          </div>
+        {filteredMovies.slice(0, 4).map((movie) => (
+          <MovieCard key={movie._id} movie={movie} />
+        ))}
+      </div>
+
+      {/* Sección de Películas recomendadas */}
+      <h2 className="text-2xl font-bold text-red-600 p-4">Películas recomendadas</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4">
+        {filteredMovies.slice(4, 8).map((movie) => (
+          <MovieCard key={movie._id} movie={movie} />
+        ))}
+      </div>
+
+      {/* Sección de Películas favoritas */}
+      <h2 className="text-2xl font-bold text-red-600 p-4">Películas favoritas</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4">
+        {filteredMovies.slice(8, 12).map((movie) => (
+          <MovieCard key={movie._id} movie={movie} />
+        ))}
+      </div>
+
+      {/* Sección de Catálogo de películas */}
+      <h2 className="text-2xl font-bold text-red-600 p-4">Catálogo de películas</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4">
+        {filteredMovies.map((movie) => (
+          <MovieCard key={movie._id} movie={movie} />
         ))}
       </div>
     </div>

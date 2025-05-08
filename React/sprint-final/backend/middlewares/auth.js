@@ -14,11 +14,3 @@ export const auth = async (req, res, next) => {
     res.status(401).json({ message: 'Invalid token', error: error.message })  // Error en la verificación del token
   }
 }
-
-// Middleware para verificar si el usuario tiene rol de admin
-export const isAdmin = (req, res, next) => {
-  if (req.user.role !== 'admin') {  // Verifica si el rol del usuario es 'admin'
-    return res.status(403).json({ message: 'Forbidden: Admins only' })  // Acceso denegado si no es admin
-  }
-  next()  // Continúa si el usuario tiene rol de admin
-}

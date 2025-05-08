@@ -40,7 +40,7 @@ const Register = () => {
         confirmButtonColor: '#d33',
         confirmButtonText: 'Aceptar',
       }).then(() => {
-        navigate('/home');
+        navigate('/movies');
       });
     } catch (error) {
       Swal.fire({

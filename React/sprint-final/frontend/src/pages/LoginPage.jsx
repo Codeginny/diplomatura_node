@@ -33,7 +33,7 @@ const LoginPage = () => {
       const response = await api.post("/auth/login", data);
       login(response.data.user, response.data.token);
       toast.success("Inicio de sesión exitoso");
-      navigate("/home");
+      navigate("/rolepage");
     } catch (error) {
       // Verificar si el error es de autenticación
       const errorMessage = error?.response?.data?.message || "Error al iniciar sesión";

@@ -1,3 +1,4 @@
+// src/components/ProfileManagement.jsx
 import { useState, useEffect } from "react";
 import useAuth from "../auth/useAuth";
 import { toast } from "react-toastify";
