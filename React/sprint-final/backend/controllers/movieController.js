@@ -26,10 +26,10 @@ export const getFilteredMovies = async (req, res) => {
 
     // Filtro por clasificación de edad
     if (userRole === "niño") {
-      filters.ageRating = "ATP";
+      filters.ageRating = "ATP"; // Solo películas para niños
     } else if (userRole === "adulto") {
       // Si se especifica un ageRating, se respeta. De lo contrario, se permiten ambos.
-      filters.ageRating = ageRating ? ageRating : { $in: ["ATP", "+18"] };
+      filters.ageRating = ageRating ? ageRating : { $in: ["ATP", "+18"] }; // Permitir tanto ATP como +18 para adultos
     }
 
     const movies = await Movie.find(filters);

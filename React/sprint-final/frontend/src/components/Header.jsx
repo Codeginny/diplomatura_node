@@ -6,7 +6,7 @@ import logo from "../assets/img/logo.png";
 import headerBanner from "../assets/img/header.jpg";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ setFilteredMovies, allMovies }) => {
+const Header = ({ setFilteredMovies }) => {
   const { auth, logout } = useContext(AuthContext);
   const [searchText, setSearchText] = useState("");
   const [showCategories, setShowCategories] = useState(false);
@@ -17,14 +17,14 @@ const Header = ({ setFilteredMovies, allMovies }) => {
 
   // Categorías disponibles
   const categories = [
-    "Acción",
-    "Comedia",
-    "Drama",
-    "Terror",
-    "Ciencia Ficción",
-    "Romance",
-    "Documentales",
-    "Películas para Niños",
+    { label: "Acción", dbValue: "Acción y Aventura" },
+    { label: "Comedia", dbValue: "Comedia" },
+    { label: "Drama", dbValue: "Drama" },
+    { label: "Terror", dbValue: "Terror" },
+    { label: "Ficción", dbValue: "Ciencia Ficción" },
+    { label: "Romance", dbValue: "Romance" },
+    { label: "Documentales", dbValue: "Documentales" },
+    { label: "Familiar", dbValue: "Películas para Niños" },
   ];
 
   // Manejar búsqueda
@@ -36,39 +36,17 @@ const Header = ({ setFilteredMovies, allMovies }) => {
     setShowCategories(!showCategories);
   };
 
-  // Filtrar las películas basándonos en la categoría y el perfil (niño o adulto)
   const handleFilterMovies = (category) => {
-    let filtered = allMovies;
+    // Redirige a la página de películas con la categoría seleccionada
+    navigate(`/movies?category=${category.dbValue}`);
 
-    // Filtrar según el perfil (niño o adulto)
-    if (auth.profile === "niño") {
-      filtered = filtered.filter((movie) => movie.ageRating === "ATP"); // Solo películas para niños
-    }
-
-    // Filtrar por categoría
-    if (category) {
-      filtered = filtered.filter((movie) => movie.category === category);
-    }
-
-    setFilteredMovies(filtered);
+    // Cierra el menú de categorías
+    setShowCategories(false);
   };
 
-  // Filtrar las películas por la búsqueda
   const handleSearchMovies = () => {
-    let filtered = allMovies;
-
-    // Filtrar según el perfil (niño o adulto)
-    if (auth.profile === "niño") {
-      filtered = filtered.filter((movie) => movie.ageRating === "ATP"); // Solo películas para niños
-    }
-
-    if (searchText) {
-      filtered = filtered.filter((movie) =>
-        movie.title.toLowerCase().includes(searchText.toLowerCase())
-      );
-    }
-
-    setFilteredMovies(filtered);
+    // Redirige a la página de películas con el texto de búsqueda
+    navigate(`/movies?search=${searchText}`);
   };
 
   return (
@@ -111,7 +89,7 @@ const Header = ({ setFilteredMovies, allMovies }) => {
                       onClick={() => handleFilterMovies(cat)}
                       className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
                     >
-                      {cat}
+                      {cat.label} {/* Mostrar la categoría amigable */}
                     </li>
                   ))}
                 </ul>
