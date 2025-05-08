@@ -1,8 +1,7 @@
 // models/User.js
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs'; // Usamos bcryptjs por compatibilidad y facilidad
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
-// Definir el esquema del usuario
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -14,30 +13,27 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user',  // Valor por defecto para los usuarios comunes
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Role',  // Referencia al modelo Role
+    required: true,
   },
 });
 
-// Middleware para encriptar la contraseña antes de guardar
-UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();  // Solo encripta si la contraseña ha sido modificada
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
 
   try {
-    const hash = await bcrypt.hash(this.password, 10);  // Encripta la contraseña con bcrypt
-    this.password = hash;  // Asigna el hash en lugar de la contraseña original
-    next();  // Continúa con la operación de guardado
+    const hash = await bcrypt.hash(this.password, 10);
+    this.password = hash;
+    next();
   } catch (err) {
-    next(err);  // Si hay un error, pasa el error al siguiente middleware
+    next(err);
   }
 });
 
-// Método para comparar la contraseña ingresada con la almacenada
 UserSchema.methods.comparePassword = async function (candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);  // Compara la contraseña ingresada con la almacenada
+  return bcrypt.compare(candidatePassword, this.password);
 };
 
-// Exportar el modelo
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model("User", UserSchema);
 export default User;

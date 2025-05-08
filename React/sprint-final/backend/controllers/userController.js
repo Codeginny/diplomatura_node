@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   try {
     const { email, password, name, role } = req.body;
+    console.log("Registro de usuario:", req.body);
 
     // Verifica si el email ya está registrado
     const existingUser = await User.findOne({ email });
@@ -29,40 +30,30 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
-
+    const user = await User.findOne({ email }).populate("role", "name");
+    
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    // Verifica la contraseña
-    const isMatch = await user.comparePassword(password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Credenciales incorrectas" });
+      return res.status(401).json({ message: "Contraseña incorrecta" });
     }
 
-    // Crea el token JWT
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      { userId: user._id, role: user.role.name },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "2h" }
     );
 
-    res.status(200).json({
-      message: "Login exitoso",
-      token,
-      user: {
-        id: user._id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-      },
-    });
+    res.json({ token, user });
   } catch (error) {
-    console.error("Error en el login:", error.message);
+    console.error("Error en login:", error);
     res.status(500).json({ message: "Error al iniciar sesión" });
   }
 };
+
 
 // Obtener datos del usuario autenticado
 export const getUser = async (req, res) => {

@@ -23,7 +23,7 @@ const api = axios.create({
   },
 });
 
-// Interceptor para agregar token JWT
+// Interceptor para agregar token JWT en las solicitudes
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -35,15 +35,25 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Interceptor para manejar errores (token expirado)
+// Interceptor para manejar respuestas y guardar token + usuario
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Si la respuesta es del login, guarda el token y el usuario
+    if (response.data.token) {
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+    }
+    return response;
+  },
   (error) => {
     const originalRequest = error.config;
 
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      window.location.href = '/login';
+      window.location.href = '/login';  // Redirigir al login si el token ha expirado
+    } else if (error.response && error.response.status === 403) {
+      // Agregar un manejo de error para acceso no permitido
+      alert('Acceso denegado. No tienes permisos suficientes.');
     }
 
     return Promise.reject(error);

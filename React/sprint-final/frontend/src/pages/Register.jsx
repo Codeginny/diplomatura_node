@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,13 @@ const schema = Yup.object({
   email: Yup.string().email('Email inválido').required('Email es obligatorio'),
   password: Yup.string().min(6, 'La contraseña debe tener al menos 6 caracteres').required('Contraseña obligatoria'),
   name: Yup.string().required('Nombre es obligatorio'),
-  role: Yup.string().required('Por favor, selecciona un rol') // Validación del campo rol
+  role: Yup.string().required('Por favor, selecciona un rol')
 });
 
 const Register = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [roles, setRoles] = useState([]);
 
   const {
     register,
@@ -27,23 +28,29 @@ const Register = () => {
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await api.get('/auth/roles');
+        setRoles(response.data);
+      } catch (error) {
+        console.error('Error al obtener roles:', error);
+        setRoles([]);  // Si hay un error, se asigna un array vacío para evitar fallos
+      }
+    };
+    fetchRoles();
+  }, []);
+
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
 
   const onSubmit = async (data) => {
     try {
-      // Aquí estamos pasando el rol junto con los demás campos
-      await api.post('/auth/register', {
-        email: data.email,
-        password: data.password,
-        name: data.name,
-        role: data.role  // Asegúrate de pasar el rol
-      });
+      await api.post('/auth/register', data);
       Swal.fire({
         icon: 'success',
         title: 'Cuenta creada con éxito',
-        text: 'Presiona Aceptar para comenzar',
         confirmButtonColor: '#d33',
         confirmButtonText: 'Aceptar',
       }).then(() => {
@@ -57,46 +64,32 @@ const Register = () => {
       });
     }
   };
-  
 
   return (
     <div className="bg-black text-white min-h-screen flex items-center justify-center">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-sm"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-sm">
         <h2 className="text-3xl text-center text-red-600 font-bold mb-6">Crear cuenta</h2>
 
         <div className="mb-4">
           <label htmlFor="email" className="text-lg font-medium">Email</label>
-          <input
-            type="email"
-            id="email"
-            {...register('email')}
-            className="w-full p-3 mt-2 rounded-md border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600"
-          />
+          <input type="email" id="email" {...register('email')} className="w-full p-3 mt-2 rounded-md border border-gray-700 bg-gray-800 text-white" />
           {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
         </div>
 
         <div className="mb-4">
           <label htmlFor="name" className="text-lg font-medium">Nombre completo</label>
-          <input
-            type="text"
-            id="name"
-            {...register('name')}
-            className="w-full p-3 mt-2 rounded-md border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600"
-          />
+          <input type="text" id="name" {...register('name')} className="w-full p-3 mt-2 rounded-md border border-gray-700 bg-gray-800 text-white" />
           {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
         </div>
 
-        <div className="mb-4 relative">
+        <div className="mb-4">
           <label htmlFor="password" className="text-lg font-medium">Contraseña</label>
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
               {...register('password')}
-              className="w-full p-3 pr-12 mt-2 rounded-md border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="w-full p-3 pr-12 mt-2 rounded-md border border-gray-700 bg-gray-800 text-white"
             />
             <span
               onClick={togglePasswordVisibility}
@@ -108,22 +101,28 @@ const Register = () => {
           {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
         </div>
 
+        <div className="mb-4">
+          <label htmlFor="role" className="text-lg font-medium">Seleccionar Rol</label>
+          <select
+            id="role"
+            {...register('role')}
+            className="w-full p-3 mt-2 rounded-md border border-gray-700 bg-gray-800 text-white"
+          >
+            <option value="">Seleccione un rol</option>
+            {roles.length > 0 ? (
+              roles.map((role) => (
+                <option key={role._id} value={role._id}>{role.name}</option>
+              ))
+            ) : (
+              <option value="">Cargando roles...</option>
+            )}
+          </select>
+          {errors.role && <p className="text-red-500 text-sm">{errors.role.message}</p>}
+        </div>
 
-        <button
-          type="submit"
-          className="w-full p-3 mt-4 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-300"
-        >
+        <button type="submit" className="w-full p-3 mt-4 bg-red-600 text-white rounded-md hover:bg-red-700">
           Crear cuenta
         </button>
-
-        <div className="mt-4 text-center">
-          <p className="text-sm">
-            ¿Ya tienes cuenta?{' '}
-            <a href="/login" className="text-red-500 hover:underline">
-              Inicia sesión
-            </a>
-          </p>
-        </div>
       </form>
     </div>
   );

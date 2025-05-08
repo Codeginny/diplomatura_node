@@ -1,67 +1,124 @@
 // routes/auth.js
-import express from 'express'
-import jwt from 'jsonwebtoken'
-import User from '../models/User.js'
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+import Role from '../models/Role.js';
+import { auth, admin, hasPermission } from '../middlewares/auth.js';
 
-const router = express.Router()
+const router = express.Router();
 
-// Ruta de registro
+// Ruta de Registro
 router.post('/register', async (req, res) => {
   try {
-    const { email, password, name, role } = req.body;  // Aquí agregamos el rol
+    const { email, password, name, role } = req.body;
 
-    // Verifica si el usuario ya existe
     const existe = await User.findOne({ email });
-    if (existe) return res.status(400).json({ msg: 'Ya existe el usuario' });
+    if (existe) {
+      return res.status(400).json({ msg: 'Ya existe el usuario' });
+    }
 
-    // Creación de un nuevo usuario incluyendo el rol
+    const roleData = await Role.findById(role);
+    if (!roleData) {
+      return res.status(400).json({ msg: 'Rol no válido' });
+    }
+
     const nuevoUsuario = await User.create({ email, password, name, role });
 
-    // Generación de un token JWT
     const token = jwt.sign(
-      { userId: nuevoUsuario._id, email: nuevoUsuario.email, role: nuevoUsuario.role },
+      { 
+        userId: nuevoUsuario._id, 
+        email: nuevoUsuario.email, 
+        role: roleData.name 
+      },
       process.env.JWT_SECRET,
       { expiresIn: '20d' }
     );
 
     res.status(201).json({
       msg: 'Usuario registrado con éxito',
-      token,  // El token se devuelve para futuras peticiones
-      user: { email: nuevoUsuario.email, name: nuevoUsuario.name, role: nuevoUsuario.role }
+      token,
+      user: {
+        id: nuevoUsuario._id,
+        email: nuevoUsuario.email,
+        name: nuevoUsuario.name,
+        role: roleData.name
+      }
     });
   } catch (err) {
+    console.error('Error en el registro:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
-// Ruta de login
+// Ruta para obtener los roles
+router.get('/roles', async (req, res) => {
+  try {
+    const roles = await Role.find();
+    res.json(roles);
+  } catch (error) {
+    console.error('Error al obtener roles:', error.message);
+    res.status(500).json({ message: 'Error al obtener roles' });
+  }
+});
+
+// Ruta de Login
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
-    // Verifica si el usuario existe
-    const usuario = await User.findOne({ email })
-    if (!usuario) return res.status(400).json({ msg: 'Usuario no encontrado' })
+    const usuario = await User.findOne({ email }).populate({
+      path: 'role',
+      populate: { path: 'permissions' }
+    });
 
-    // Compara las contraseñas
-    const passwordMatch = await usuario.comparePassword(password)
-    if (!passwordMatch) return res.status(400).json({ msg: 'Contraseña incorrecta' })
+    if (!usuario) {
+      return res.status(400).json({ msg: 'Usuario no encontrado' });
+    }
 
-    // Genera un token JWT
+    const passwordMatch = await usuario.comparePassword(password);
+    if (!passwordMatch) {
+      return res.status(400).json({ msg: 'Contraseña incorrecta' });
+    }
+
     const token = jwt.sign(
-      { userId: usuario._id, email: usuario.email, role: usuario.role },
+      {
+        userId: usuario._id,
+        email: usuario.email,
+        role: usuario.role.name,
+        permissions: usuario.role.permissions.map(p => p.name)
+      },
       process.env.JWT_SECRET,
       { expiresIn: '20d' }
-    )
+    );
 
     res.status(200).json({
       msg: 'Login exitoso',
-      token,  // El token se devuelve para futuras peticiones
-      user: { email: usuario.email, name: usuario.name, role: usuario.role }
-    })
-  } catch (err) {
-    res.status(500).json({ error: err.message })
-  }
-})
+      token,
+      user: {
+        id: usuario._id,
+        email: usuario.email,
+        name: usuario.name,
+        role: usuario.role.name,
+        permissions: usuario.role.permissions.map(p => p.name)
+      }
+    });
 
-export default router
+  } catch (err) {
+    console.error('Error en el login:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Ruta protegida: Panel de administración
+router.get('/admin-dashboard', auth, admin, (req, res) => {
+  res.status(200).json({ message: 'Bienvenido al panel de administración' });
+});
+
+
+// Ruta protegida: Crear película (con permisos)
+router.post('/create-movie', auth, hasPermission('create_movie'), (req, res) => {
+  res.status(200).json({ message: 'Permiso concedido para crear una película' });
+});
+
+
+export default router;
