@@ -23,11 +23,14 @@ export const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
       name,
+      role: req.body.isAdmin ? 'admin' : 'user',  // Asignar el rol de admin si isAdmin es true
     });
+    
+    
 
     await newUser.save();
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '20d' });
 
     res.status(201).json({ message: "Usuario creado con éxito", token });
   } catch (error) {
@@ -37,36 +40,24 @@ export const registerUser = async (req, res) => {
 };
 
 // Función de login
-export const loginUser = async (req, res) => {
-  debugger;
+eexport const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log('[LOGIN] Datos recibidos:', { email, password });
 
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      console.log('[LOGIN] Usuario no encontrado');
       return res.status(400).json({ message: "El correo no está registrado" });
     }
 
-    console.log('[LOGIN] Usuario encontrado:', user);
-
     const match = await bcrypt.compare(password, user.password);
-    console.log('[LOGIN] Contraseña coincide:', match);
-
     if (!match) {
-      console.log('[LOGIN] Contraseña incorrecta');
       return res.status(400).json({ message: "Contraseña incorrecta" });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '20d' });
 
-    console.log('[LOGIN] Token generado:', token);
-
-    res.status(200).json({ message: "Login exitoso", token });
+    res.status(200).json({ message: user.role === "admin" ? "Admin login successful" : "User login successful", token });
   } catch (error) {
-    console.error('[LOGIN] Error inesperado:', error);
     res.status(500).json({ message: "Hubo un error al iniciar sesión" });
   }
 };
-

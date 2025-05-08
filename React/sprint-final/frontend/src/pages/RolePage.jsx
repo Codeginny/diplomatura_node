@@ -8,11 +8,6 @@ const RolePage = () => {
   const { selectProfile, auth } = useContext(AuthContext); // Asegúrate de que selectProfile esté en el contexto
   const navigate = useNavigate(); 
 
-  // Función para navegar al formulario de creación de perfil
-  const navigateToCreateProfile = () => {
-    navigate("/create-profile");  // Redirigir a la página de creación de perfil
-  };
-
   // Función que maneja la selección del perfil
   const handleSelectProfile = (profile) => {
     selectProfile(profile);  // Actualiza el perfil en el contexto
@@ -52,13 +47,6 @@ const RolePage = () => {
           <p className="text-center text-white mt-2">Perfil Niño</p>
         </div>
 
-        {/* Cuadro para crear nuevo perfil */}
-        <div
-          className="cursor-pointer hover:scale-105 transition-transform border-4 border-red-600 w-48 h-48 flex items-center justify-center"
-          onClick={navigateToCreateProfile} 
-        >
-          <span className="text-red-600 text-4xl">+</span>
-        </div>
       </div>
     </div>
   );

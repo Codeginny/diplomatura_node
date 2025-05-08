@@ -53,9 +53,13 @@ const Header = ({ setFilteredMovies }) => {
     <div>
       <div className="relative">
         <header className="bg-[rgba(0,0,0,0.8)] text-white py-4 px-6 flex items-center justify-between shadow-md w-full fixed top-0 left-0 z-10">
-          <div className="flex items-center gap-4">
-            <img src={logo} alt="Logo" className="h-10" />
-          </div>
+        <div 
+          className="flex items-center gap-4 cursor-pointer" 
+          onClick={() => navigate("/rolepage")}
+        >
+          <img src={logo} alt="Logo" className="h-10" />
+        </div>
+
 
           <div className="flex items-center gap-6 ml-auto">
             {/* Barra de búsqueda */}

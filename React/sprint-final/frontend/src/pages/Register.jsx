@@ -12,6 +12,7 @@ const schema = Yup.object({
   email: Yup.string().email('Email inválido').required('Email es obligatorio'),
   password: Yup.string().min(6, 'La contraseña debe tener al menos 6 caracteres').required('Contraseña obligatoria'),
   name: Yup.string().required('Nombre es obligatorio'),
+  role: Yup.string().required('Por favor, selecciona un rol') // Validación del campo rol
 });
 
 const Register = () => {
@@ -32,7 +33,13 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     try {
-      await api.post('/auth/register', data);
+      // Aquí estamos pasando el rol junto con los demás campos
+      await api.post('/auth/register', {
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        role: data.role  // Asegúrate de pasar el rol
+      });
       Swal.fire({
         icon: 'success',
         title: 'Cuenta creada con éxito',
@@ -50,6 +57,7 @@ const Register = () => {
       });
     }
   };
+  
 
   return (
     <div className="bg-black text-white min-h-screen flex items-center justify-center">
@@ -82,22 +90,22 @@ const Register = () => {
         </div>
 
         <div className="mb-4 relative">
-        <label htmlFor="password" className="text-lg font-medium">Contraseña</label>
-        <div className="relative">
+          <label htmlFor="password" className="text-lg font-medium">Contraseña</label>
+          <div className="relative">
             <input
-            type={showPassword ? 'text' : 'password'}
-            id="password"
-            {...register('password')}
-            className="w-full p-3 pr-12 mt-2 rounded-md border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600"
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              {...register('password')}
+              className="w-full p-3 pr-12 mt-2 rounded-md border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-600"
             />
             <span
-            onClick={togglePasswordVisibility}
-            className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-xl text-gray-400 hover:text-white"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-xl text-gray-400 hover:text-white"
             >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
-        </div>
-        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          </div>
+          {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
         </div>
 
 
